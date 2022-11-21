@@ -1,0 +1,7 @@
+{
+    "name": "freight/administrative",
+    "require": {
+        "vlucas/phpdotenv": "^5.5",
+        "ramsey/uuid": "^4.2"
+    }
+}
