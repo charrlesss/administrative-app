@@ -5,10 +5,6 @@
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
-body {
-	font-family: 'Roboto', sans-serif;
-	color: #546E7A;
-}
 .wrapper {
 	max-width: 18rem;
 	padding: 0 0.5rem;
@@ -127,11 +123,11 @@ table {
 
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap');
 body {
-  height: 100%; margin: 0
+  height: 100%; 
+  margin: 0;
 }
-
 a {
-    color: #007bff;
+    /* color: #007bff; */
     text-decoration: none;
 }
 button:focus,
@@ -146,15 +142,11 @@ a:hover{
 
 body{
   font-family: 'Roboto', sans-serif;
-   background-color: #e0e3e8;
-  
 }
-
-
 
 .form-area {
     background-color: #fff;
-    padding: 40px;
+    /* padding: 40px; */
     border-radius: 6px;
     display: flex;
     align-items: center;
@@ -188,174 +180,279 @@ body{
 .iti{
   width: 100%;
 }
-
 .md-country-picker-item {
     position: relative;
     line-height: 20px;
     padding: 10px 0 10px 40px;
 }
-
 .md-country-picker-flag {
     position: absolute;
     left: 0;
     height: 20px;
 }
-
 .mbsc-scroller-wheel-item-2d .md-country-picker-item {
     transform: scale(1.1);
 }
 
+
+<?php
+function limitString($string){
+    $new_string =  mb_strimwidth($string, 0, 30, "...");
+    return     $new_string ;
+}
+?>
+
     
 </style>
-<form id="complete-info" enctype="multipart/form-data" class="absolute left-0 right-0 top-0 bottom-0 bg-transparent z-[100] ">
-    <div class="flex justify-center items-center w-screen h-screen ">
-    <div class="relative w-full max-w-2xl h-full md:h-auto ">
-        <div class="relative bg-white rounded-lg shadow-2xl sm:mx-0 mx-3 mt-10 border-t-2 border-slate-100 dark:bg-gray-700  ">
-            <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Complte Your Info.
-                </h3>
+
+<form id="update-profile" class=" w-full h-full  px-10  ">
+
+    <div class="w-full relative h-auto flex md:justify-start justify-center ">
+        <div class="z-[50] md:w-[200px] md:h-[200px] w-[170px] h-[170px] relative ">
+             <div class=" relative bg-transparent z-[50] md:w-[200px] md:h-[200px] w-[170px] h-[170px] bg-gray-50 flex overflow-hidden relative  justify-center items-center rounded-full " id="drop-box" >
+                <img
+                    id="img"
+                    class="cursor-pointer rounded-full absolute top-[50%] left-[50%] -translate-y-2/4 -translate-x-2/4 min-h-full min-w-full block"
+                    />
+                    <input type="file"  id="profile" name="profile" style="opacity:0;float:left; -z-1 cursor-pointer" required />
+                
+                </div>
+                <header  id="dis" class="cursor-pointer absolute bottom-5 -right-0  z-[100] text-center">
+                            <svg class="border rounded-full p-1 bg-orange-500 h-8 w-8 text-white"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M15 7v-4h-12v12.01h4" stroke-dasharray=".001 4" />  <path d="M19 11v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2" />  <path d="M13 13l9 3l-4 2l-2 4l-3 -9" /></svg>
+                </header>
+                <p id="name_of_file" class="pt-2 uppercase text-xs font-semibold w-[250px] lg:-left-[10px] -left-[35px] text-center overflow-hidden absolute  -bottom-8"></p>
             </div>
-            <section >
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-md-6 mt-5 mb-5">
-                                <div class="form-area">
-                                    <div class="form-inner">
-                                        <div>
-                                            <div class="form-group mb-10">
-                                                    <div class="w-full  h-auto flex justify-center items-center flex-col">
-                                                             <div  class=" w-auto h-auto  flex  justify-center items-center">
-                                                             <div id="btn" class=" w-full h-full relative  oveflow-hidden">
-                                                                    <div class="border-2 bg-transparent z-[100] md:w-[200px] md:h-[200px] w-[170px] h-[170px] bg-gray-50 flex overflow-hidden relative  justify-center items-center rounded-full " id="drop-box" >
-                                                                    <img
-                                                                         id="img"
-                                                                        class=" rounded-full absolute top-[50%] left-[50%] -translate-y-2/4 -translate-x-2/4 min-h-full min-w-full block"
-                                                                        />
-                                                                        <input type="file"  id="profile" name="profile" style="opacity:0;float:left; " required />
-                                                                    </div>
-                                                                   
-                                                                    </div>
-                                                                    <header  id="dis" class="absolute  z-[100] text-center">
-                                                                        <h4 class="font-semibold text-sm text-teal-800 hover:text-blue-500">Choose a file or </br><span> drag it Here</span></h4>
-                                                                    </header>
-                                                                    
-                                                                  </div>
-                                                            <p id="name_of_file" class="pt-2"></p>
-                                                            </div>   
-                                                    </div>
-                                            </div>
-                                            <div class="form-group mt-2  ">
-                                                <div class="border px-4 py-[.5] rounded-lg" id="container-country-number">
-                                                <div  class=" flex flex-row items-center relative justify-center">
-                                                        <select   name="country" id="countries" class="border-none w-[150px] h-[40px] outline-none"  required>
-                                                            <option selected value="">Chose</option>
-                                                        </select>
-                                                        <input id="mb-number" placeholder="Enter Your Number" name="mb-number" type="text"  class="mb-2 h-[40px] pl-2 border-none outline-none " required>
-                                                    </div>
-                                                    
-                                                </div>
-                                            </div>
 
-                                          <div   class="form-group datepicker-container mt-2 "  id="bd-container" >
-                                            <label for="datepicker" id="datepicker-label" >Birth Date
-                                                </label>	
-                                                <input type="text" id="datepicker" autocomplete="off" name="birthdate" >
-                                        </div>
-                                        <div class="form-group">
-                                        <textarea name="address" rows="2" class= " form-control   block p-2.5 w-full text-sm text-gray-900  rounded-lg " placeholder="Address"></textarea>
-                                        </div>
-                                        <div  class="form-group flex my-3 gap-x-3 items-center ">
-                                                    <div class="flex items-end ">
-                                                        <input id="male" type="radio" value="male" name="gender" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                                        <label for="male" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Male</label>
-                                                    </div>
-                                                    <div class="flex items-end ">
-                                                        <input checked id="female" type="radio" value="female" name="gender" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                                        <label for="female" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Female</label>
-                                                    </div>
-                                            </div>
-
-                                        </div>
+           <div class=" md:flex hidden w-auto h-auto items-center ml-5 ">
+            <div class="flex flex-col">
+                <h1 class="text-3xl w-full overflow-hidden whitespace-nowrap	"><?php echo limitString($_SESSION['visitor_account']['fullname']); ?> </h1>
+                <p class="uppercase text-xs font-semibold text-gray-300 tracking-[2px]"><?php echo $_SESSION['visitor_account']['country']; ?></p>
+            </div> 
+        </div>
+    </div>
+    <!-- //form     -->
+    <section class="w-full  mt-10" >
+        <div class="w-full">
+            <div class="">
+                <div class="col-md-6 mt-5 mb-5">
+                    <div class="form-area">
+                        <div class="form-inner">
+                                <!-- fullname & email -->
+                                <div class="flex gap-x-4 w-full h-auto md:flex-row flex-col ">
+                                    <div class="form-group der md:mt-2 rounded-lg w-full">
+                                        <label for="fullname" class="text-[11px] uppercase text-indigo-900 font-semibold">Full Name</label>
+                                        <input type="text" name="fullname" id="fullname" class="form-control m-0" required>
+                                    </div>
+                                    <div class="form-group  md:mt-2 rounded-lg w-full">
+                                        <label for="email" class="text-[11px] uppercase text-indigo-900 font-semibold">Email</label>
+                                        <input type="email" name="email" id="email" class="form-control m-0" required>
                                     </div>
                                 </div>
+                                        <!-- country & mobile number -->
+                                <div class="flex gap-x-4 w-full h-auto md:flex-row flex-col">
+                                        <div class="form-group md:mt-2  w-full">
+                                            <label for="countries" class="text-[11px] uppercase text-indigo-900 font-semibold">Mobile Number</label>
+                                            <div class="border px-4  rounded-lg" id="container-country-number">
+                                                <div  class=" flex flex-row items-center relative justify-center h-[50px] ">
+                                                    <select   name="country-mb" id="countries" class="border-none w-[78px] h-[40px] outline-none"  required>
+                                                        <!-- <option selected value="qweqweqwe">Chose</option> -->
+                                                    </select>
+                                                    <input id="mb-number" placeholder="Enter Your Number" name="mb-number" type="text"  class="form-group mb-2" required>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group der mt-2 rounded-lg w-full h-[65px]">
+                                            <label for="countries-input" class="text-[11px] uppercase text-indigo-900 font-semibold">Country</label>
+                                            <select  name="countries-input" id="countries-input" class="form-control "  required>
+                                                    <option  value="">Chose</option>
+                                            </select>
+                                        </div>
+                                </div>
+
+                                
+                                <div  class="flex gap-x-4 w-full h-auto md:flex-row flex-col mt-2">
+                                    <div  class="form-group  w-full"  id="bd-container" >
+                                        <label for="birthdate" class="text-[11px] uppercase text-indigo-900 font-semibold">Birth Date</label> 
+                                        <input class="form-control m-0 p-0"  type="text" placeholder="DD-MM-YYYY" id="datepicker" autocomplete="off" name="birthdate"  required>
+                                    </div>
+
+                                    <div class="form-group w-full ">
+                                        <label for="address" class="text-[11px] uppercase text-indigo-900 font-semibold">Address</label> 
+                                        <textarea name="address" rows="1" class= " form-control" id="address" placeholder="Address" required></textarea>
+                                    </div>
+                            </div>
+                            
+
+                            <div  class="form-group flex my-3 gap-x-3 items-center ">
+                                        <div class="flex items-end ">
+                                            <input id="male" type="radio" value="male" name="gender" required class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <label for="male" class="ml-2 text-[11px] uppercase text-indigo-900 font-semibold" >Male</label>
+                                        </div>
+                                        <div class="flex items-end ">
+                                            <input checked id="female" type="radio" value="female" name="gender" required class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <label for="female" class="text-[11px] uppercase text-indigo-900 font-semibold ml-2" >Female</label>
+                                        </div>
+                                </div>
+
                             </div>
                         </div>
-                        <div class=" flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                     <button type="submit" data-modal-toggle="defaultModal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-                 </div>
-                    </div>  
-                
-                </section>
-        </div>
-
-    </div>
+                    </div>
+                </div>
+            </div>
+                <div class=" flex justify-between items-center pt-5  space-x-2 rounded-b ">
+                    <button type="submit" data-modal-toggle="defaultModal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg md:text-sm text-xs px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save Changes</button>
+                    <button type="button" data-modal-toggle="defaultModal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg md:text-sm text-xs px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Change Password</button>
+                </div>
+        </div>  
+    </section>
 </form>
+<div id="loading-update-profile" class="flex justify-center items-center  border-5 border-red-500 absolute top-0 bottom-0 left-0 right-0 z-[100] bg-white">
+    <div role="status">
+        <svg class="inline mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+        </svg>
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<script>
+    const profile =  "<?php echo $_SESSION['visitor_account']['profile'] ?>"
+    const fullname ="<?php echo $_SESSION['visitor_account']['fullname'] ?>"
+    const email ="<?php echo $_SESSION['visitor_account']['email'] ?>"
+    const mb_number ="<?php echo $_SESSION['visitor_account']['mb_number'] ?>"
+    const country = "<?php echo $_SESSION['visitor_account']['country'] ?>"
+    const birthdate = "<?php echo $_SESSION['visitor_account']['birthdate'] ?>"
+    const address = "<?php echo $_SESSION['visitor_account']['address'] ?>"
+    const gender = "<?php echo $_SESSION['visitor_account']['gender'] ?>"
+</script>
 
 <script>
 
-    $(function(){
-$("#complete-info").submit(function(e){
-e.preventDefault()
-const formData = new FormData(e.currentTarget)
-formData.append('profile',$('#profile').prop('files')[0])
-formData.append('address',formData.get('address'))
-formData.append('gender',formData.get('gender'))
-formData.append('mb-number',formData.get('mb-number'))
-formData.append('country',formData.get('country'))
+    $("#loading-update-profile").hide()
+
+    $("#update-profile").submit(function(e){
+        e.preventDefault()
+        $("#loading-update-profile").show()
+        const formData = new FormData(e.currentTarget)
+        const inputProfile = formData.get('profile').name.split('/')[formData.get('profile').name.split('/').length -1]
+      
+     
+    if(inputProfile ===  profile &&
+       formData.get('email') === email&&
+       formData.get('fullname') ===  fullname&&
+       formData.get('mb-number') === mb_number&&
+       formData.get('countries-input') === country&&
+       formData.get('birthdate')=== birthdate &&
+       formData.get('address') === address &&
+       formData.get('gender') === gender){
+        $("#loading-update-profile").hide()
+            return Swal.fire({
+               icon: 'warning',
+               title: 'Opppps!',
+               text:"You need to update some fields if you want to update your profile!",
+               showConfirmButton: true,
+            })
+        }
+
+        formData.append('profile' ,formData.get('profile'))
+        formData.append('fullname' ,formData.get('fullname'))
+        formData.append('email' ,formData.get('email'))
+        formData.append('mb-number' ,formData.get('mb-number'))
+        formData.append('countries-input' ,formData.get('countries-input'))
+        formData.append('birthdate' ,formData.get('birthdate'))
+        formData.append('address' ,formData.get('address'))
+        formData.append('gender' ,formData.get('gender'))
 
         $.ajax({
             type: 'post',
-            url: '/freight/visitor-complete-info',
+            url: '/freight/visitor-update-profile',
             data:formData,
             cache: false,
             contentType: false,
             processData: false,
             success: function (response) {
-                console.log(response)
+               const timeout =  setTimeout(() => {
+                $("#loading-update-profile").hide()
+                clearTimeout(timeout)
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Good job!',
+                    text:response.message,
+                    showConfirmButton: false,
+                    timer: 1000
+                }).finally(()=>{
+                   window.location.reload()
+                })
+                }, 2000);
             }
         })
-        })
-    })
+
+
+})
+
 </script>
 
+<script>
+        $('#fullname').val(`${fullname}`)
+        $('#email').val(`${email}`)
+        $('#mb-number').val(`${mb_number}`)
+       $('#countries-input').val(`${country}`)
+       $('#datepicker').val(`${birthdate}`)
+       $('#address').val(`${address}`)
+       $('#gender').val(`${gender}`)
+       
+</script>
+
+
+<script>
+   function defaultValue (input){
+    const myFile = new File(['Hello World!'], '"<?php echo $GLOBALS['url']."/assets/profile/".$_SESSION['visitor_account']['profile']; ?>', {
+            type: 'text/plain',
+            lastModified: new Date(),
+        });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(myFile);
+        input.files = dataTransfer.files
+   }
+</script>
+
+
+
 <script> 
- const button = document.querySelector('#btn')
+const button = document.querySelector('#btn')
 const input = document.querySelector('#profile')
 const filename = document.querySelector('#name_of_file')
 const img = document.querySelector('#img')
 const discription = document.querySelector('#dis')
 const dropbox = img.closest('#drop-box')
 
+defaultValue(input)
 let uploadfile
-img.src = "<?php echo $GLOBALS['url'].'/assets/img/profile_default.jpg'; ?>"
+img.src ="<?php echo $GLOBALS['url']."/assets/profile/".$_SESSION['visitor_account']['profile']; ?>"
    
 discription.addEventListener('click',()=>{
   input.click()
 })
 img.addEventListener('click',()=>{
   input.click()
+  input.style.display ="block"
 })
-btn.addEventListener('click',()=>{
-  input.click()
-})
-
 
 input.addEventListener('change',(e)=>{
    readURL(e.target)
  
 })
 
+filename.textContent = "drag & drop or select an image"
+
 function readURL(input){
     const file = input.files[0]
-
   if(!input.files && !input.files[0]) return
-
   filename.textContent =  file.name
-
-
   const reader = new FileReader()
-
   reader.onload = (e)=>{
     uploadfile =  e.target.result
     img.src =uploadfile
@@ -372,22 +469,28 @@ img.addEventListener('dragover',(e)=>{
 
 img.addEventListener('drop' ,(e)=>{
     e.preventDefault()
-    img.src = "<?php echo $GLOBALS['url'].'/assets/img/profile_default.jpg'; ?>"
+    img.src ="<?php echo $GLOBALS['url']."/assets/profile/".$_SESSION['visitor_account']['profile']; ?>"
+
+    input.required =false
+    const dT = new DataTransfer();
+    dT.items.add(e.dataTransfer.files[0]);
+    input.files = dT.files
     readURL(e.dataTransfer)   
     $('#dis').show()
 })
 
 img.addEventListener('dragleave',(e)=>{
     e.preventDefault()
+    input.required =false
     $('#dis').show()
     if(uploadfile){
         img.src = uploadfile
         return
     }
-    img.src = "<?php echo $GLOBALS['url'].'/assets/img/profile_default.jpg'; ?>"
-
+    img.src ="<?php echo $GLOBALS['url']."/assets/profile/".$_SESSION['visitor_account']['profile']; ?>"
 })
 </script>
+
 
 
 <script>
@@ -397,12 +500,7 @@ img.addEventListener('dragleave',(e)=>{
 		,	duration: "fast"
 	});
 
-    $("#datepicker").focus(function(){
-     document.querySelector('#datepicker-label').closest('div').style.border = "1px solid  #5A8DEE"
-    })
-    $("#datepicker").focusout(function(){
-     document.querySelector('#datepicker-label').closest('div').style.border = ""
-    })
+
     $("#bd-container").click(function(){
         $( "#datepicker" ).focus()
     })
@@ -414,6 +512,11 @@ img.addEventListener('dragleave',(e)=>{
      document.querySelector('#container-country-number').closest('div').style.border = "1px solid  #5A8DEE"
     })
 
+    // $("#countries-input").focus(function(){
+    //  document.querySelector('#countries-input').closest('div').style.border = "1px solid  #5A8DEE"
+    // })
+
+
     $("#mb-number").focusout(function(){
      document.querySelector('#container-country-number').closest('div').style.border = ""
     })
@@ -422,8 +525,16 @@ img.addEventListener('dragleave',(e)=>{
      document.querySelector('#container-country-number').closest('div').style.border = ""
     })
 
+    
+    $("#countries-input").focusout(function(){
+     document.querySelector('#countries-input').closest('div').style.border = ""
+    })
+
+
+
 })
 </script>
+
 
 <script>
 
@@ -1641,16 +1752,300 @@ img.addEventListener('dragleave',(e)=>{
     }
     ]
 
+
+
     countryPN.forEach((data) => {
-    const option = document.createElement('option')
+        const option = document.createElement('option')
+        if(data.name === country){
+            option.textContent  =`(${data["dial_code"]})`
+            option.value =data.name
+            option.selected = true
+            $('#countries').append(option)
+
+            return
+        }
+
+    option.textContent =  `${data["name"]}` +" " +`(${data["dial_code"]})`
     option.value = data.name
-    option.textContent =  `${data["name"].slice(0,7)}...` + " "+" " +`(${data["dial_code"]})`
+
     $('#countries').append(option)
-});
+    });
+
+
+$('#countries').change(function(e){
+    e.preventDefault()
+    const optionSelected = $('#countries :selected').text().toString().split(' ')
+    $('#countries :selected')[0].textContent =  optionSelected[optionSelected.length -1]
+})
+
 
 </script>
 
 
+<script>
+
+const countries = [ 
+{"name": "Afghanistan", "code": "AF"}, 
+{"name": "land Islands", "code": "AX"}, 
+{"name": "Albania", "code": "AL"}, 
+{"name": "Algeria", "code": "DZ"}, 
+{"name": "American Samoa", "code": "AS"}, 
+{"name": "AndorrA", "code": "AD"}, 
+{"name": "Angola", "code": "AO"}, 
+{"name": "Anguilla", "code": "AI"}, 
+{"name": "Antarctica", "code": "AQ"}, 
+{"name": "Antigua and Barbuda", "code": "AG"}, 
+{"name": "Argentina", "code": "AR"}, 
+{"name": "Armenia", "code": "AM"}, 
+{"name": "Aruba", "code": "AW"}, 
+{"name": "Australia", "code": "AU"}, 
+{"name": "Austria", "code": "AT"}, 
+{"name": "Azerbaijan", "code": "AZ"}, 
+{"name": "Bahamas", "code": "BS"}, 
+{"name": "Bahrain", "code": "BH"}, 
+{"name": "Bangladesh", "code": "BD"}, 
+{"name": "Barbados", "code": "BB"}, 
+{"name": "Belarus", "code": "BY"}, 
+{"name": "Belgium", "code": "BE"}, 
+{"name": "Belize", "code": "BZ"}, 
+{"name": "Benin", "code": "BJ"}, 
+{"name": "Bermuda", "code": "BM"}, 
+{"name": "Bhutan", "code": "BT"}, 
+{"name": "Bolivia", "code": "BO"}, 
+{"name": "Bosnia and Herzegovina", "code": "BA"}, 
+{"name": "Botswana", "code": "BW"}, 
+{"name": "Bouvet Island", "code": "BV"}, 
+{"name": "Brazil", "code": "BR"}, 
+{"name": "British Indian Ocean Territory", "code": "IO"}, 
+{"name": "Brunei Darussalam", "code": "BN"}, 
+{"name": "Bulgaria", "code": "BG"}, 
+{"name": "Burkina Faso", "code": "BF"}, 
+{"name": "Burundi", "code": "BI"}, 
+{"name": "Cambodia", "code": "KH"}, 
+{"name": "Cameroon", "code": "CM"}, 
+{"name": "Canada", "code": "CA"}, 
+{"name": "Cape Verde", "code": "CV"}, 
+{"name": "Cayman Islands", "code": "KY"}, 
+{"name": "Central African Republic", "code": "CF"}, 
+{"name": "Chad", "code": "TD"}, 
+{"name": "Chile", "code": "CL"}, 
+{"name": "China", "code": "CN"}, 
+{"name": "Christmas Island", "code": "CX"}, 
+{"name": "Cocos (Keeling) Islands", "code": "CC"}, 
+{"name": "Colombia", "code": "CO"}, 
+{"name": "Comoros", "code": "KM"}, 
+{"name": "Congo", "code": "CG"}, 
+{"name": "Congo, The Democratic Republic of the", "code": "CD"}, 
+{"name": "Cook Islands", "code": "CK"}, 
+{"name": "Costa Rica", "code": "CR"}, 
+{"name": "Cote D Ivoire", "code": "CI"}, 
+{"name": "Croatia", "code": "HR"}, 
+{"name": "Cuba", "code": "CU"}, 
+{"name": "Cyprus", "code": "CY"}, 
+{"name": "Czech Republic", "code": "CZ"}, 
+{"name": "Denmark", "code": "DK"}, 
+{"name": "Djibouti", "code": "DJ"}, 
+{"name": "Dominica", "code": "DM"}, 
+{"name": "Dominican Republic", "code": "DO"}, 
+{"name": "Ecuador", "code": "EC"}, 
+{"name": "Egypt", "code": "EG"}, 
+{"name": "El Salvador", "code": "SV"}, 
+{"name": "Equatorial Guinea", "code": "GQ"}, 
+{"name": "Eritrea", "code": "ER"}, 
+{"name": "Estonia", "code": "EE"}, 
+{"name": "Ethiopia", "code": "ET"}, 
+{"name": "Falkland Islands (Malvinas)", "code": "FK"}, 
+{"name": "Faroe Islands", "code": "FO"}, 
+{"name": "Fiji", "code": "FJ"}, 
+{"name": "Finland", "code": "FI"}, 
+{"name": "France", "code": "FR"}, 
+{"name": "French Guiana", "code": "GF"}, 
+{"name": "French Polynesia", "code": "PF"}, 
+{"name": "French Southern Territories", "code": "TF"}, 
+{"name": "Gabon", "code": "GA"}, 
+{"name": "Gambia", "code": "GM"}, 
+{"name": "Georgia", "code": "GE"}, 
+{"name": "Germany", "code": "DE"}, 
+{"name": "Ghana", "code": "GH"}, 
+{"name": "Gibraltar", "code": "GI"}, 
+{"name": "Greece", "code": "GR"}, 
+{"name": "Greenland", "code": "GL"}, 
+{"name": "Grenada", "code": "GD"}, 
+{"name": "Guadeloupe", "code": "GP"}, 
+{"name": "Guam", "code": "GU"}, 
+{"name": "Guatemala", "code": "GT"}, 
+{"name": "Guernsey", "code": "GG"}, 
+{"name": "Guinea", "code": "GN"}, 
+{"name": "Guinea-Bissau", "code": "GW"}, 
+{"name": "Guyana", "code": "GY"}, 
+{"name": "Haiti", "code": "HT"}, 
+{"name": "Heard Island and Mcdonald Islands", "code": "HM"}, 
+{"name": "Holy See (Vatican City State)", "code": "VA"}, 
+{"name": "Honduras", "code": "HN"}, 
+{"name": "Hong Kong", "code": "HK"}, 
+{"name": "Hungary", "code": "HU"}, 
+{"name": "Iceland", "code": "IS"}, 
+{"name": "India", "code": "IN"}, 
+{"name": "Indonesia", "code": "ID"}, 
+{"name": "Iran, Islamic Republic Of", "code": "IR"}, 
+{"name": "Iraq", "code": "IQ"}, 
+{"name": "Ireland", "code": "IE"}, 
+{"name": "Isle of Man", "code": "IM"}, 
+{"name": "Israel", "code": "IL"}, 
+{"name": "Italy", "code": "IT"}, 
+{"name": "Jamaica", "code": "JM"}, 
+{"name": "Japan", "code": "JP"}, 
+{"name": "Jersey", "code": "JE"}, 
+{"name": "Jordan", "code": "JO"}, 
+{"name": "Kazakhstan", "code": "KZ"}, 
+{"name": "Kenya", "code": "KE"}, 
+{"name": "Kiribati", "code": "KI"}, 
+{"name": "Korea, Democratic People S Republic of", "code": "KP"}, 
+{"name": "Korea, Republic of", "code": "KR"}, 
+{"name": "Kuwait", "code": "KW"}, 
+{"name": "Kyrgyzstan", "code": "KG"}, 
+{"name": "Lao People S Democratic Republic", "code": "LA"}, 
+{"name": "Latvia", "code": "LV"}, 
+{"name": "Lebanon", "code": "LB"}, 
+{"name": "Lesotho", "code": "LS"}, 
+{"name": "Liberia", "code": "LR"}, 
+{"name": "Libyan Arab Jamahiriya", "code": "LY"}, 
+{"name": "Liechtenstein", "code": "LI"}, 
+{"name": "Lithuania", "code": "LT"}, 
+{"name": "Luxembourg", "code": "LU"}, 
+{"name": "Macao", "code": "MO"}, 
+{"name": "Macedonia, The Former Yugoslav Republic of", "code": "MK"}, 
+{"name": "Madagascar", "code": "MG"}, 
+{"name": "Malawi", "code": "MW"}, 
+{"name": "Malaysia", "code": "MY"}, 
+{"name": "Maldives", "code": "MV"}, 
+{"name": "Mali", "code": "ML"}, 
+{"name": "Malta", "code": "MT"}, 
+{"name": "Marshall Islands", "code": "MH"}, 
+{"name": "Martinique", "code": "MQ"}, 
+{"name": "Mauritania", "code": "MR"}, 
+{"name": "Mauritius", "code": "MU"}, 
+{"name": "Mayotte", "code": "YT"}, 
+{"name": "Mexico", "code": "MX"}, 
+{"name": "Micronesia, Federated States of", "code": "FM"}, 
+{"name": "Moldova, Republic of", "code": "MD"}, 
+{"name": "Monaco", "code": "MC"}, 
+{"name": "Mongolia", "code": "MN"}, 
+{"name": "Montenegro", "code": "ME"},
+{"name": "Montserrat", "code": "MS"},
+{"name": "Morocco", "code": "MA"}, 
+{"name": "Mozambique", "code": "MZ"}, 
+{"name": "Myanmar", "code": "MM"}, 
+{"name": "Namibia", "code": "NA"}, 
+{"name": "Nauru", "code": "NR"}, 
+{"name": "Nepal", "code": "NP"}, 
+{"name": "Netherlands", "code": "NL"}, 
+{"name": "Netherlands Antilles", "code": "AN"}, 
+{"name": "New Caledonia", "code": "NC"}, 
+{"name": "New Zealand", "code": "NZ"}, 
+{"name": "Nicaragua", "code": "NI"}, 
+{"name": "Niger", "code": "NE"}, 
+{"name": "Nigeria", "code": "NG"}, 
+{"name": "Niue", "code": "NU"}, 
+{"name": "Norfolk Island", "code": "NF"}, 
+{"name": "Northern Mariana Islands", "code": "MP"}, 
+{"name": "Norway", "code": "NO"}, 
+{"name": "Oman", "code": "OM"}, 
+{"name": "Pakistan", "code": "PK"}, 
+{"name": "Palau", "code": "PW"}, 
+{"name": "Palestinian Territory, Occupied", "code": "PS"}, 
+{"name": "Panama", "code": "PA"}, 
+{"name": "Papua New Guinea", "code": "PG"}, 
+{"name": "Paraguay", "code": "PY"}, 
+{"name": "Peru", "code": "PE"}, 
+{"name": "Philippines", "code": "PH"}, 
+{"name": "Pitcairn", "code": "PN"}, 
+{"name": "Poland", "code": "PL"}, 
+{"name": "Portugal", "code": "PT"}, 
+{"name": "Puerto Rico", "code": "PR"}, 
+{"name": "Qatar", "code": "QA"}, 
+{"name": "Reunion", "code": "RE"}, 
+{"name": "Romania", "code": "RO"}, 
+{"name": "Russian Federation", "code": "RU"}, 
+{"name": "RWANDA", "code": "RW"}, 
+{"name": "Saint Helena", "code": "SH"}, 
+{"name": "Saint Kitts and Nevis", "code": "KN"}, 
+{"name": "Saint Lucia", "code": "LC"}, 
+{"name": "Saint Pierre and Miquelon", "code": "PM"}, 
+{"name": "Saint Vincent and the Grenadines", "code": "VC"}, 
+{"name": "Samoa", "code": "WS"}, 
+{"name": "San Marino", "code": "SM"}, 
+{"name": "Sao Tome and Principe", "code": "ST"}, 
+{"name": "Saudi Arabia", "code": "SA"}, 
+{"name": "Senegal", "code": "SN"}, 
+{"name": "Serbia", "code": "RS"}, 
+{"name": "Seychelles", "code": "SC"}, 
+{"name": "Sierra Leone", "code": "SL"}, 
+{"name": "Singapore", "code": "SG"}, 
+{"name": "Slovakia", "code": "SK"}, 
+{"name": "Slovenia", "code": "SI"}, 
+{"name": "Solomon Islands", "code": "SB"}, 
+{"name": "Somalia", "code": "SO"}, 
+{"name": "South Africa", "code": "ZA"}, 
+{"name": "South Georgia and the South Sandwich Islands", "code": "GS"}, 
+{"name": "Spain", "code": "ES"}, 
+{"name": "Sri Lanka", "code": "LK"}, 
+{"name": "Sudan", "code": "SD"}, 
+{"name": "Suriname", "code": "SR"}, 
+{"name": "Svalbard and Jan Mayen", "code": "SJ"}, 
+{"name": "Swaziland", "code": "SZ"}, 
+{"name": "Sweden", "code": "SE"}, 
+{"name": "Switzerland", "code": "CH"}, 
+{"name": "Syrian Arab Republic", "code": "SY"}, 
+{"name": "Taiwan, Province of China", "code": "TW"}, 
+{"name": "Tajikistan", "code": "TJ"}, 
+{"name": "Tanzania, United Republic of", "code": "TZ"}, 
+{"name": "Thailand", "code": "TH"}, 
+{"name": "Timor-Leste", "code": "TL"}, 
+{"name": "Togo", "code": "TG"}, 
+{"name": "Tokelau", "code": "TK"}, 
+{"name": "Tonga", "code": "TO"}, 
+{"name": "Trinidad and Tobago", "code": "TT"}, 
+{"name": "Tunisia", "code": "TN"}, 
+{"name": "Turkey", "code": "TR"}, 
+{"name": "Turkmenistan", "code": "TM"}, 
+{"name": "Turks and Caicos Islands", "code": "TC"}, 
+{"name": "Tuvalu", "code": "TV"}, 
+{"name": "Uganda", "code": "UG"}, 
+{"name": "Ukraine", "code": "UA"}, 
+{"name": "United Arab Emirates", "code": "AE"}, 
+{"name": "United Kingdom", "code": "GB"}, 
+{"name": "United States", "code": "US"}, 
+{"name": "United States Minor Outlying Islands", "code": "UM"}, 
+{"name": "Uruguay", "code": "UY"}, 
+{"name": "Uzbekistan", "code": "UZ"}, 
+{"name": "Vanuatu", "code": "VU"}, 
+{"name": "Venezuela", "code": "VE"}, 
+{"name": "Viet Nam", "code": "VN"}, 
+{"name": "Virgin Islands, British", "code": "VG"}, 
+{"name": "Virgin Islands, U.S.", "code": "VI"}, 
+{"name": "Wallis and Futuna", "code": "WF"}, 
+{"name": "Western Sahara", "code": "EH"}, 
+{"name": "Yemen", "code": "YE"}, 
+{"name": "Zambia", "code": "ZM"}, 
+{"name": "Zimbabwe", "code": "ZW"} 
+]
 
 
+countries.forEach((data) => {
+    const option = document.createElement('option')
+    if(data.name === country){
+        option.textContent =  `${data["name"]}`
+         option.value = data.name
+        option.selected = true
+        $('#countries-input').append(option)
+        return
+    }
+    
+    option.textContent =  `${data["name"]}`
+    option.value = data.name
 
+    $('#countries-input').append(option)
+    });
+
+</script>

@@ -1,17 +1,22 @@
-<?php 
-    include( 'layout/header-setup-administrative.php');
-    if($_SESSION["forgot-password-administrative"] !== $secret){
-      return include($_SERVER['DOCUMENT_ROOT'].'/freight/views/404.php');
-    }
+
+<?php
+ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-setup-administrative.php');
 ?>
 </head>
 <body>
-<section class="sm:h-screen h-auto w-screen  flex justify-center bg-[#8E629D] ">
-<section class="h-full gradient-form  md:h-screen ">
+<section class="h-screen w-screen  flex justify-center bg-[#8E629D]">
+<section class="h-full gradient-form  md:h-screen">
   <div class="container py-12 px-6 h-full">
     <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
       <div class="xl:w-10/12">
         <div class="block bg-white shadow-lg rounded-lg">
+        <a href="/freight">
+            <img
+            class="w-6 h-6  ml-3 mt-3 absolute"
+            src="<?php echo $GLOBALS['url'].'/assets/img/home.png'; ?>"
+            alt="logo"
+            />
+            </a>
           <div class="lg:flex lg:flex-wrap g-0">
             <div class="lg:w-6/12 px-4 md:px-0">
               <div class="md:p-12 md:mx-6">
@@ -21,10 +26,30 @@
                   src="<?php echo $GLOBALS['url'].'/assets/img/delivery-boy.png'; ?>"
                     alt="logo"
                   />
-                  <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">Create Request For Visiting</h4>
                 </div>
-                <form id="form-change-password">
-                  <p class="mb-4">Change Your Password</p>
+                <form id="form-register">
+                  <p class="mb-4">Create Your Account</p>
+                  <div class="mb-4">
+                    <input
+                    required
+                      type="Full Name"
+                      class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                      name="fullname"
+                      id="fullname"
+                      placeholder="Full Name"
+                    />
+
+                  </div>
+                  <div class="mb-4">
+                    <input
+                    required
+                      type="email"
+                      class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                      name="email"
+                      id="email"
+                      placeholder="Email"
+                    />
+                  </div>
                   <div class="mb-4">
                     <input
                     required
@@ -32,7 +57,7 @@
                       class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       name="password"
                       id="password"
-                      placeholder="New Password"
+                      placeholder="Password"
                     />
                     <label id='password-label' for="confirmPassword" class="text-xs text-red-500">Password do not match!</label>
                   </div>
@@ -43,7 +68,7 @@
                       class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       name="confirmPassword"
                       id="confirmPassword"
-                      placeholder="Confirm New Password"
+                      placeholder="ConfirmPassword"
                     />
                     <label id='confirmPassword-label' for="confirmPassword" class="text-xs text-red-500">Password do not match!</label>
                   </div>
@@ -65,9 +90,9 @@
                     >
                       Submit
                     </button>
-                </div>
-                <div class="flex items-center justify-between pb-6">
-                      <a class="text-gray-500 hover:text-blue-500" href="/freight">Back To Login</a>
+                  </div>
+                  <div class="flex items-center justify-between pb-6">
+                  <a class="text-gray-500 hover:text-blue-500 " href="administrative-login">Back To Login</a>
                   </div>
                 </form>
               </div>
@@ -95,6 +120,7 @@
   </div>
 </section>
 </section>
+
 <div id="loading" class="flex justify-center items-center  border-5 border-red-500 absolute top-0 bottom-0 left-0 right-0 z-[100] bg-white">
     <div role="status">
         <svg class="inline mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -104,48 +130,6 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
-
-<script>
-let interval;
-function expiredVerificationSession(response){
-
-if(Date.now() > (response.session_expired * 1000)){
-  $.ajax({ 
-  type: "GET",
-  url: "/freight/forgotpassword-remove-session",             
-  dataType: "json",                  
-  success: function(res){ 
-    console.log(res)
-        Swal.fire({
-          icon: 'error',
-          text:res.message,
-          showConfirmButton: true,
-        }).then(()=>{
-          window.location.href = "/freight"
-        })
-
-    }
-})
-  return clearInterval(interval)
-}
-}
-
-
-$(document).ready(function() {
-  $.ajax({ 
-    type: "GET",
-    url: "/freight/forgotpassword-session-expired",             
-    dataType: "json",                  
-    success: function(response){  
-       interval = setInterval(()=>{
-        console.log(response)
-        expiredVerificationSession(response)
-      },100)        
-      }
-  })
-});
-
-</script>
 
 
 
@@ -163,58 +147,86 @@ document.getElementById('password').addEventListener('focus', (event) => {
 
 </script>
 
-<script>
-    $("#loading").hide()
 
+<script>    
+$("#loading").hide()
 $("#password-label").hide()
 $("#confirmPassword-label").hide()
-
 $(function () {
-  $('#form-change-password').on('submit',function(e){
-    e.preventDefault()
-    $("#loading").show()
+$('#form-register').on('submit', function (e) {
+e.preventDefault()
 
 const formData = new FormData(e.currentTarget);
+if(formData.get('password') !== formData.get('confirmPassword')){
+  const password =   document.getElementById('password')
+  const confirmPassword =   document.getElementById('confirmPassword')
+  password.style.border='2px solid red'
+  confirmPassword.style.border='2px solid red'
+  $("#password-label").show()
+$("#confirmPassword-label").show()
+return
+}
 
-    if(formData.get('password') !== formData.get('confirmPassword')){
-    const password =   document.getElementById('password')
-    const confirmPassword =   document.getElementById('confirmPassword')
 
-    password.style.border='2px solid red'
-    confirmPassword.style.border='2px solid red'
-    $("#password-label").show()
-    $("#confirmPassword-label").show()
-    return
-    }
 
-    formData.append('password' ,formData.get('password'))
-    formData.append('confirmPassword' ,formData.get('confirmPassword'))
-
-    $.ajax({
-            type: 'post',
-            url: '/freight/forgot-change-password',
-            data:formData,
-            success:function(res){
-              const timeout= setTimeout(() => {
-              $("#loading").hide()
-                clearTimeout(timeout)
-                  Swal.fire({
-                      icon: 'success',
-                      title: 'Good Job!',
-                      text:res.message,
-                      showConfirmButton: true,
-                      }).then(()=>{
-                        window.location.href = '/freight'
-                  })
-                },2000)
-            },
-            processData: false,
-            contentType: false,
+$("#loading").show()
+  $.ajax({
+    type: 'post',
+    url: '/freight/register-user',
+    data: $('#form-register').serialize(),
+    success: function (response) {
+      const timeout = setTimeout(() => {
+        $("#loading").hide()
+      clearTimeout(timeout)
+      if(!response.success){
+        Swal.fire({
+        icon: 'error',
+        title: 'Ooopss!',
+        text:response.message,
+        showConfirmButton: true,
+        })
+        return
+      }
+        Swal.fire({
+        icon: 'success',
+        title: 'Good job!',
+        text:response.message,
+        showConfirmButton: true,
+      }
+    ).then(()=>{
+    
+      $.ajax({ 
+    type: "GET",
+    url: "/freight/verification-session-start",             
+    dataType: "json",                  
+    success: function(res){ 
+      sessionStorage.clear()
+        window.location.href = '/freight/administrative-verify-email'
+        }
     })
-  })
-})
 
+     
+
+    })
+  }, 1000);
+   
+  },
+  error:function(_ , _ ,errorMessage){
+    $("#loading").hide()
+    clearTimeout(timeout)
+      console.log(errorMessage);
+    }
+  });
+
+
+});
+});
 </script>
-<?php 
-    include('layout/footer-setup-administrative.php')
+</body>
+</html>
+
+
+
+ <?php
+ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/footer-setup-administrative.php');
 ?>

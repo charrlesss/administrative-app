@@ -1,27 +1,41 @@
-<?php 
-    include( 'layout/header-setup-administrative.php');
+<?php
+ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-setup-administrative.php');
 ?>
+<style>
+     body{
+      background: #8E629D;
+      height: 100vh;
+      width: 100%;
+    },
+</style>
 </head>
 <body>
-<section class="sm:h-screen h-auto w-screen  flex justify-center bg-[#8E629D] ">
-<section class="h-full gradient-form  md:h-screen ">
+<section class="m:h-screen h-auto w-screen  flex justify-center bg-[#8E629D]">
+<section class="h-full gradient-form  md:h-screen">
+
   <div class="container py-12 px-6 h-full">
     <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
-      <div class="xl:w-10/12">
-        <div class="block bg-white shadow-lg rounded-lg">
+        <div class="xl:w-10/12">
+            <div class="block bg-white shadow-lg rounded-lg">
+            <a href="/freight">
+            <img
+            class="w-6 h-6  ml-3 mt-3 absolute"
+            src="<?php echo $GLOBALS['url'].'/assets/img/home.png'; ?>"
+            alt="logo"
+            />
+            </a>
           <div class="lg:flex lg:flex-wrap g-0">
             <div class="lg:w-6/12 px-4 md:px-0">
               <div class="md:p-12 md:mx-6">
                 <div class="text-center">
                   <img
-                  class="mx-auto sm:w-48 sm:pt-10 pt-4 w-24"
-                  src="<?php echo $GLOBALS['url'].'/assets/img/delivery-boy.png'; ?>"
+                    class="mx-auto sm:w-48 sm:pt-10 pt-4 w-24"
+                    src="<?php echo $GLOBALS['url'].'/assets/img/delivery-boy.png'; ?>"
                     alt="logo"
                   />
-                  <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">Create Request For Visiting</h4>
                 </div>
-                <form id="form-forgot-password">
-                  <p class="mb-4">Please Enter Your Email</p>
+                <form id="form-login">
+                  <p class="mb-4">Please login to your account</p>
                   <div class="mb-4">
                     <input
                       type="email"
@@ -30,10 +44,19 @@
                       placeholder="Email"
                     />
                   </div>
+                  <div class="mb-4">
+                    <input
+                      type="password"
+                      class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                      name="password"
+                      placeholder="Password"
+                    />
+                  </div>
                   <div class="text-center pt-1 sm:mb-12 mb-5 pb-1">
                     <button
                       class="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
                       type="submit"
+                      id="submit"
                       data-mdb-ripple="true"
                       data-mdb-ripple-color="light"
                       style="
@@ -46,11 +69,12 @@
                         );
                       "
                     >
-                      Submit
+                      Log in
                     </button>
-                </div>
-                <div class="flex items-center justify-between pb-6">
-                      <a class="text-gray-500 hover:text-blue-500" href="/freight">Back To Login</a>
+                    <a class="text-gray-500" href="administrative-forgot-password">Forgot password?</a>
+                  </div>
+                  <div class="flex items-center justify-between pb-6">
+                    <a href="administrative-register" class="mb-0 mr-2 hover:text-blue-500">Don't have an account?</a>
                   </div>
                 </form>
               </div>
@@ -89,44 +113,62 @@
     </div>
 </div>
 
+<script>    
 
-<script>
-  $("#loading").hide()
+$("#loading").hide()
 
 $(function () {
-  $('#form-forgot-password').on('submit',function(e){
-    e.preventDefault()
-    $("#loading").show()
-    const  formData = new FormData(e.currentTarget)
-    formData.append('email' ,   formData.get('email'))  
+$('#form-login').on('submit', function (e) {
+  e.preventDefault()
+  $("#loading").show()
+
+
     $.ajax({
-            type: 'post',
-            url: '/freight/forgot-password-send-email',
-            data: formData,
-            success:function(res){
-              console.log(res)
-              const timeout= setTimeout(() => {
-              $("#loading").hide()
-                clearTimeout(timeout)
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Click the link to verify',
-                  text:res.message,
-                  showConfirmButton: true,
-                  })
-
-              },200)
-            },
-            processData: false,
-            contentType: false,
-
+    type: 'post',
+    url: '/freight/login-user',
+    data: $('#form-login').serialize(),
+    success: function (response) {
+      const timeout= setTimeout(() => {
+      $("#loading").hide()
+    clearTimeout(timeout)
+      if(!response.success){
+       return   Swal.fire({
+          icon: 'error',
+          text:response.message,
+          showConfirmButton: true,
+        })
+      }
+      Swal.fire({
+        icon: 'success',
+        title: 'Good job!',
+        text:response.message,
+        showConfirmButton: false,
+        timer: 1000
+      }).finally(()=>{
+      window.location.href = "/freight/administrative/visitor-dashboard"
     })
+  }, 2000);
+    },  
+    error:function(_ , _ ,errorMessage){
+    $("#loading").hide()
+    clearTimeout(timeout)
+      console.log(errorMessage);
+    }
 
-  })
+  });
 
-})
+ 
+ 
+
+});
+
+});
 
 </script>
-<?php 
-    include('layout/footer-setup-administrative.php')
+
+
+
+
+ <?php
+ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/footer-setup-administrative.php');
 ?>

@@ -1,13 +1,16 @@
-<?php 
-    include( 'layout/header-setup-administrative.php');
+<?php
+ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-setup-administrative.php');
 ?>
 <style>
-    *{
+*{
   box-sizing: border-box;
 }
 body{
-  margin: 0;
-}
+background: #8E629D;
+height: 100vh;
+width: 100%;
+margin:0;
+},
 .title{
   max-width: 400px;
   margin: auto;
@@ -378,7 +381,7 @@ $(function () {
                       dataType: "json",                  
                       success: function(res){ 
                           if(res.success){
-                            window.location.href = "/freight"
+                            window.location.href = "/freight/administrative/visitor-dashboard"
                             return 
                           }
                           Swal.fire({
@@ -395,7 +398,7 @@ $(function () {
                       url: "/freight/re-login",             
                       dataType: "json",                  
                       success: function(){ 
-                            window.location.href = "/freight"
+                            window.location.href = "/freight/administrative-login"
                       }
                   })
 
@@ -410,6 +413,9 @@ $(function () {
     });
 })
 </script>
-<?php 
-    include('layout/footer-setup-administrative.php')
+
+
+
+ <?php
+ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/footer-setup-administrative.php');
 ?>

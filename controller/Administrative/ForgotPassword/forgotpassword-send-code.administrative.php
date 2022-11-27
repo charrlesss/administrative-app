@@ -15,7 +15,7 @@ $_SESSION["forgot-password-administrative"] = "$secret";
 $_SESSION["forgot-password-email-administrative"] = "$email";
 
 
-$sendlink = rtrim($GLOBALS['url'] ,'/')."/change-password/$secret";
+$sendlink = rtrim($GLOBALS['url'] ,'/')."/administrative-change-password/$secret";
 sendmail($sendlink);
 
 $response = array(

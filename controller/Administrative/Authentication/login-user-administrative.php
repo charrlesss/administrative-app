@@ -1,5 +1,8 @@
 <?php
 include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/query-method.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/visitor.administrative.php');
+
+
 $email = $_POST['email'];
 $password = $_POST['password'];
 $user = find_by_email('visitor-account',$email);
@@ -26,6 +29,8 @@ if(!password_verify($password,$user['password'])){
 }
 
 $_SESSION["user_login_administrative"] = $user['visitor_id']; 
+$user = get_user_by_id();
+$_SESSION['visitor_account'] =$user;
 login_account($_SESSION["user_login_administrative"]);
 
 $response = array(

@@ -1,7 +1,22 @@
-<?php 
-    include( 'layout/header-setup-administrative.php');
-?>
 
+
+<?php
+ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-setup-administrative.php');
+?>
+  <style>
+.emoji-404{
+  position: relative;
+  animation: mymove 2.5s infinite;
+}
+
+@keyframes mymove {
+  33%   {top: 0px;}
+  66%  {top: 20px;}
+  100%  {top: 0px}
+}
+</style>
+</head>
+<body>
     <div class="bg-gray-100 h-screen justify-center w-full border-2">
   
     <center class="mt-24 m-auto">
@@ -19,6 +34,10 @@
     </center>
     </div>
     
-    <?php 
-    include('layout/footer-setup-administrative.php')
+ 
+
+ <?php
+ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/footer-setup-administrative.php');
 ?>
+
+
