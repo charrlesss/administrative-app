@@ -7,9 +7,15 @@ $uuid = Uuid::uuid4();
 
 $email =$_POST['email'];
 
+
 $secret = $uuid->toString();
 $_SESSION['start'] = time();
 $_SESSION['expire'] = $_SESSION['start'] + (30 * 60);
+
+if(!empty($_POST['from'])){
+    $_SESSION["request-from-profile-administrative"] =$_POST['from'];
+}
+
 
 $_SESSION["forgot-password-administrative"] = "$secret";
 $_SESSION["forgot-password-email-administrative"] = "$email";

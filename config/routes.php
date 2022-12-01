@@ -13,7 +13,7 @@ if(empty($_SESSION["user_login_administrative"])){
         get('/administrative-login', 'views/Administrative/pages/login-page.administrative.php');
         get('/administrative-register', 'views/Administrative/pages/register-page.administrative.php');
         get('/administrative-forgot-password', 'views/Administrative/pages/forgot-password-page.administrative.php');
-        get('/administrative-change-password/$secret', 'views/Administrativepages//change-password.administrative.php');
+        get('/administrative-change-password/$secret', 'views/Administrative/pages/change-password.administrative.php');
     }else{
         get('/', 'views/Administrative/pages/landing-page.administrative.php');
         get('/administrative-login', 'views/Administrative/pages/login-page.administrative.php');
@@ -24,11 +24,15 @@ if(empty($_SESSION["user_login_administrative"])){
 else{
     //client
     if($_SESSION["user_login_administrative"]){
+        if(!empty($_SESSION["forgot-password-administrative"])){
+            get('/administrative-change-password/$secret', 'views/Administrative/pages/change-password.administrative.php');
+        }
         get('/administrative/visitor-dashboard','views/Administrative/client-administrative/pages/index-page.administrative.php');
         get('/administrative/visitor-dashboard/profile','views/Administrative/client-administrative/pages/index-page.administrative.php');
         get('/administrative/visitor-dashboard/inquirers','views/Administrative/client-administrative/pages/index-page.administrative.php');
         get('/administrative/visitor-dashboard/appointment-request','views/Administrative/client-administrative/pages/index-page.administrative.php');
         get('/administrative/visitor-dashboard/company-facility','views/Administrative/client-administrative/pages/index-page.administrative.php');
+        get('/administrative/visitor-dashboard/company-facility/$facility_id','views/Administrative/client-administrative/pages/index-page.administrative.php');
     }
 }
 
@@ -56,10 +60,20 @@ get('/timer','controller/Administrative/EmailVerification/timer.administrative.p
 get('/verification-session-start','controller/Administrative/EmailVerification/start-sessiion-verification.administrative.php');
 get('/resend-verification-code','controller/Administrative/EmailVerification/resend-new-code-verification.administrative.php');
 
+
+//Facility
+get('/get-company-facility', 'controller/Administrative/Company-Facility/fetch-company-facility.administrative.php');
+get('/get-company-facility-by-id/$facility_id', 'controller/Administrative/Company-Facility/fetch-company-facility-by-id.administrative.php');
+
+//Appointment
+post('/get-appointment-content-render', 'controller/Administrative/Appointment-Request/appointment-content-render.administrative.php');
+
 //visitor
 post('/visitor-complete-info', 'controller/Administrative/Visitor/complete-info-visitor.administrative.php');
 post('/visitor-logout', 'controller/Administrative/Visitor/logout-visitor.administrative.php');
-post('/visitor-update-profile', 'controller/Administrative/Visitor/update-profile-visitor.administrative');
+post('/visitor-update-profile', 'controller/Administrative/Visitor/update-profile-visitor.administrative.php');
+
+
 
 
 //always in the bottom routes not found send 404 page

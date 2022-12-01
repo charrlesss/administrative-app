@@ -1,9 +1,11 @@
 <?php 
-    include( '/layout/header-setup-administrative.php');
-    if($_SESSION["forgot-password-administrative"] !== $secret){
-      return include($_SERVER['DOCUMENT_ROOT'].'/freight/views/404.php');
-    }
+ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-setup-administrative.php');
+
+ if($_SESSION["forgot-password-administrative"] !== $secret){
+      return include($_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/pages/404.php');
+  }
 ?>
+<link rel="stylesheet" href="/freight/views/css/password-validation.administrative.css">
 <style>
      body{
       background: #8E629D;
@@ -11,6 +13,7 @@
       width: 100%;
     },
 </style>
+
 </head>
 <body>
 <section class="sm:h-screen h-auto w-screen  flex justify-center bg-[#8E629D] ">
@@ -54,6 +57,28 @@
                     />
                     <label id='confirmPassword-label' for="confirmPassword" class="text-xs text-red-500">Password do not match!</label>
                   </div>
+                  <div class="my-2">
+                    <div id="characterMinMax" class="validation-display">
+                      <div id="characterMinMax-validation" class="validation-message"></div>
+                      <p>Minimum of 8 & maximum of 30 characters</p>
+                    </div>
+                    <div id="lowercase" class="validation-display">
+                      <div id="lowercase-validation" class="validation-message"></div>
+                      <p>At least 1 lowercase letter</p>
+                    </div>
+                    <div id="uppercase" class="validation-display">
+                      <div id="uppercase-validation" class="validation-message"></div>
+                      <p>At least 1 uppercase letter</p>
+                    </div>
+                    <div id="numeric" class="validation-display">
+                      <div id="numeric-validation" class="validation-message"></div>
+                      <p>At least 1 numeric digit</p>
+                    </div>
+                    <div id="specialCharacter" class="validation-display">
+                      <div id="specialCharacter-validation" class="validation-message"></div>
+                      <p>At least 1 specialCharacter</p>
+                    </div>
+                </div>
                   <div class="text-center pt-1 sm:mb-12 mb-5 pb-1">
                     <button
                       class="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
@@ -73,9 +98,7 @@
                       Submit
                     </button>
                 </div>
-                <div class="flex items-center justify-between pb-6">
-                      <a class="text-gray-500 hover:text-blue-500" href="/freight">Back To Login</a>
-                  </div>
+                 
                 </form>
               </div>
             </div>
@@ -102,7 +125,7 @@
   </div>
 </section>
 </section>
-<div id="loading" class="flex justify-center items-center  border-5 border-red-500 absolute top-0 bottom-0 left-0 right-0 z-[100] bg-white">
+<div id="loading-forgot-password" class="flex justify-center items-center  border-5 border-red-500 absolute top-0 bottom-0 left-0 right-0 z-[100] bg-white">
     <div role="status">
         <svg class="inline mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
@@ -112,6 +135,12 @@
     </div>
 </div>
 
+
+                  
+<script src="/freight/views/js/password-validation.administrative.js"></script>
+<script>
+  const redirect = "/freight/administrative-login"
+</script>
 <script>
 let interval;
 function expiredVerificationSession(response){
@@ -127,7 +156,7 @@ if(Date.now() > (response.session_expired * 1000)){
           text:res.message,
           showConfirmButton: true,
         }).then(()=>{
-          window.location.href = "/freight/administrative-login"
+          window.location.href = redirect
         })
 
     }
@@ -170,7 +199,7 @@ document.getElementById('password').addEventListener('focus', (event) => {
 </script>
 
 <script>
-    $("#loading").hide()
+  $("#loading-forgot-password").hide()
 
 $("#password-label").hide()
 $("#confirmPassword-label").hide()
@@ -178,11 +207,12 @@ $("#confirmPassword-label").hide()
 $(function () {
   $('#form-change-password').on('submit',function(e){
     e.preventDefault()
-    $("#loading").show()
+    $("#loading-forgot-password").show()
 
 const formData = new FormData(e.currentTarget);
-
+    
     if(formData.get('password') !== formData.get('confirmPassword')){
+      $("#loading-forgot-password").hide()
     const password =   document.getElementById('password')
     const confirmPassword =   document.getElementById('confirmPassword')
 
@@ -202,15 +232,15 @@ const formData = new FormData(e.currentTarget);
             data:formData,
             success:function(res){
               const timeout= setTimeout(() => {
-              $("#loading").hide()
+              $("#loading-forgot-password").hide()
                 clearTimeout(timeout)
                   Swal.fire({
                       icon: 'success',
-                      title: 'Good Job!',
+                      title: 'Password Changed!',
                       text:res.message,
                       showConfirmButton: true,
                       }).then(()=>{
-                        window.location.href = "/freight/administrative-login"
+                        window.location.href = redirect
                   })
                 },2000)
             },
@@ -221,6 +251,6 @@ const formData = new FormData(e.currentTarget);
 })
 
 </script>
-<?php 
-    include('layout/footer-setup-administrative.php')
+<?php
+ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/footer-setup-administrative.php');
 ?>

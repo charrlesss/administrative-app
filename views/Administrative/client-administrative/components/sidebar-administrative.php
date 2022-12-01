@@ -42,7 +42,7 @@ array(
 ?>
 
 
-<div id="sidebar" class=" z-[100] bg-indigo-50 shadow-2xl xl:w-[350px] w-[300px] transition-all h-full border xl:relative absolute transition-all ">
+<div id="sidebar" class="md:block  z-[100] bg-indigo-50 shadow-2xl xl:w-[350px] w-[300px] transition-all h-full border xl:relative absolute transition-all ">
   <div id="sidebar-container" class="bg-indigo-50 transition-all">
       <div class="w-full flex-1 relative flex justify-start mb-5 h-[70px] pl-1 pt-1">
         <div  class="flex-1 mr-1 bg-indigo-50 border-indigo-200  flex overflow-hidden  gap-x-3 items-center border relative px-2 py-2 rounded-xl">
@@ -65,7 +65,7 @@ array(
                     class="mx-auto sm:w-48 sm:pt-10 pt-4 w-24"
                     src="
                     <?php 
-                $profile = $_SESSION['visitor_account']['profile'];
+                $profile = $_SESSION['visitor_account']['profile'] ?  $_SESSION['visitor_account']['profile'] : "profile_default.jpg";
                 echo $GLOBALS['url']."/assets/profile/$profile"; 
                 ?>"
                 alt="logo"
@@ -81,9 +81,9 @@ array(
             while($i < count($users))
             {
             ?>
-                <a href=" <?php echo $users[$i]['link']?>" class="flex gap-x-3 items-center cursor-pointer hover:bg-indigo-100  py-2 pl-4">
-                        <?php echo $users[$i]['icon'] ?>
-                        <p><?php echo $users[$i]['name']?></p>
+                <a href="<?php echo $users[$i]['link']?>" class="flex gap-x-3 items-center cursor-pointer hover:bg-indigo-100  py-2 pl-4">
+                    <?php echo $users[$i]['icon'] ?>
+                    <p><?php echo $users[$i]['name']?></p>
                 </a>
             
             <?php
@@ -116,23 +116,16 @@ array(
     </div>
 </div>
 
-
+<script>
+    if(window.innerWidth < 1280){
+      $('#menu-btn-main').show()
+        $('#sidebar').animate({width:"0" ,left:"-100%"},{duration:100})
+    }
+</script>
 
 <script>
 
    $(function(){
-    const headerElement = $('#visitor-header')
-    $(window).resize(function(){
-    if($(window).width() <= 1280){
-    headerElement.css('width',"100%")
-    return 
-    }
-    headerElement.css('width',"85%")
-    $('#menu-btn-main').hide()
-    $('#sidebar').animate({width:"350px" ,left:"0"},{duration:0})
-    return 
-
-  })
     $("#loading").hide()
 
     const sidebar = $('#sidebar')[0]
@@ -141,25 +134,13 @@ array(
     $('#menu-btn').click(function(){
         $('#menu-btn-main').show()
         $('#sidebar').animate({width:"0" ,left:"-100%"},{duration:100})
-        headerElement.css('width',"100%")
     })
+
     $('#menu-btn-main').click(function(){
       $('#menu-btn-main').hide()
         $('#sidebar').animate({width:"350px" ,left:"0"},{duration:100})
-
-         const interval=  setInterval(() => {
-            if($(window).width() <= 1280){
-              headerElement.css('width',"100%")
-              return clearInterval(interval)
-            }else{
-              headerElement.css('width',"85%")
-              return clearInterval(interval)
-            }
-          }, 100);
-
-      
-     
     })
+    
 
       $("#logout-btn").click(function(e){
         e.preventDefault()

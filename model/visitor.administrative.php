@@ -46,7 +46,7 @@ function get_user_by_id(){
     ){
       $db = $GLOBALS["db"];
       $id=$_SESSION["user_login_administrative"];
-      $sql ="UPDATE `visitor-account` SET `fullname`=' $fullname',`email`=' $email',`gender`='$gender',`birthdate`='$birthdate',`address`='$address',`country`='$country',`mb_number`='$mb_number' WHERE `visitor_id` = '$id'";
+      $sql ="UPDATE `visitor-account` SET `fullname`=' $fullname',`email`='$email',`gender`='$gender',`birthdate`='$birthdate',`address`='$address',`country`='$country',`mb_number`='$mb_number' WHERE `visitor_id` = '$id'";
       $db->query($sql);
     
     }

@@ -33,6 +33,9 @@ $user = get_user_by_id();
 $_SESSION['visitor_account'] =$user;
 login_account($_SESSION["user_login_administrative"]);
 
+
+
+
 $response = array(
     'message'=>'Successfully Login.',
     'success'=>true
