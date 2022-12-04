@@ -42,12 +42,12 @@ array(
 ?>
 
 
-<div id="sidebar" class="md:block  z-[100] bg-indigo-50 shadow-2xl xl:w-[350px] w-[300px] transition-all h-full border xl:relative absolute transition-all ">
-  <div id="sidebar-container" class="bg-indigo-50 transition-all">
-      <div class="w-full flex-1 relative flex justify-start mb-5 h-[70px] pl-1 pt-1">
+<div id="sidebar" class="md:block  z-[100] bg-indigo-50 shadow-2xl w-[300px] transition-all h-full border xl:relative absolute transition-all ">
+  <div id="sidebar-container" class="bg-indigo-50 transition-all w-full">
+      <div class="w-[300px] flex-1 relative flex justify-start mb-5 h-[70px] pl-1 pt-1">
         <div  class="flex-1 mr-1 bg-indigo-50 border-indigo-200  flex overflow-hidden  gap-x-3 items-center border relative px-2 py-2 rounded-xl">
             <img class=" rounded-full w-10 h-10 border border-indigo-600 p-2 outline outline-offset-2 outline-indigo-500" src="<?php echo $GLOBALS['url'].'/assets/img/truck.png'  ?>" alt="logo">
-            <p class=" uppercase text-indigo-800 font-semibold text-xs">Freight Visitor Dashboard</p>
+            <p class=" uppercase text-indigo-800 font-semibold text-xs whitespace-nowrap">Freight Visitor Dashboard</p>
         </div>
       <button id="menu-btn" class="cursor-pointer w-auto relative  flex items-center p-1 text-pink-800 hover:text-gray-900 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
                 <svg class="fill-current h-6 w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -117,10 +117,22 @@ array(
 </div>
 
 <script>
+   if(window.innerWidth < 1280){
+        $('#menu-btn-main').show()
+        $('#sidebar').animate({width:"0" ,left:"-100%"},{duration:5})
+      }
+
+    $(window).resize(function(){
     if(window.innerWidth < 1280){
-      $('#menu-btn-main').show()
-        $('#sidebar').animate({width:"0" ,left:"-100%"},{duration:100})
-    }
+        $('#menu-btn-main').show()
+        $('#sidebar').animate({width:"0" ,left:"-100%"},{duration:5})
+      }
+     else{
+        $('#menu-btn-main').hide()
+        $('#sidebar').animate({width:"300px" ,left:"0"},{duration:5})
+      }
+    })
+
 </script>
 
 <script>
@@ -138,7 +150,7 @@ array(
 
     $('#menu-btn-main').click(function(){
       $('#menu-btn-main').hide()
-        $('#sidebar').animate({width:"350px" ,left:"0"},{duration:100})
+        $('#sidebar').animate({width:"300px" ,left:"0"},{duration:100})
     })
     
 

@@ -31,6 +31,9 @@ else{
         get('/administrative/visitor-dashboard/profile','views/Administrative/client-administrative/pages/index-page.administrative.php');
         get('/administrative/visitor-dashboard/inquirers','views/Administrative/client-administrative/pages/index-page.administrative.php');
         get('/administrative/visitor-dashboard/appointment-request','views/Administrative/client-administrative/pages/index-page.administrative.php');
+        get('/administrative/visitor-dashboard/appointment-request/view/$visitor_request_id','views/Administrative/client-administrative/pages/index-page.administrative.php');
+        get('/administrative/visitor-dashboard/appointment-request/edit/$visitor_request_id','views/Administrative/client-administrative/pages/index-page.administrative.php');
+        get('/administrative/visitor-dashboard/appointment-request/delete/$visitor_request_id','views/Administrative/client-administrative/pages/index-page.administrative.php');
         get('/administrative/visitor-dashboard/company-facility','views/Administrative/client-administrative/pages/index-page.administrative.php');
         get('/administrative/visitor-dashboard/company-facility/$facility_id','views/Administrative/client-administrative/pages/index-page.administrative.php');
     }
@@ -67,6 +70,8 @@ get('/get-company-facility-by-id/$facility_id', 'controller/Administrative/Compa
 
 //Appointment
 post('/get-appointment-content-render', 'controller/Administrative/Appointment-Request/appointment-content-render.administrative.php');
+get('/get-appointment-request', 'controller/Administrative/Appointment-Request/get-request-appointment-created.php');
+post('/view-appointment-request', 'controller/Administrative/Appointment-Request/get-request-appointment-by-id.administtrative.php');
 
 //visitor
 post('/visitor-complete-info', 'controller/Administrative/Visitor/complete-info-visitor.administrative.php');
@@ -75,7 +80,5 @@ post('/visitor-update-profile', 'controller/Administrative/Visitor/update-profil
 
 
 
-
 //always in the bottom routes not found send 404 page
-
 any('/404','views/Administrative/pages/404.php');

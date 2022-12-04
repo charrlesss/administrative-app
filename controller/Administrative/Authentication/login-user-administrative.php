@@ -35,7 +35,6 @@ login_account($_SESSION["user_login_administrative"]);
 
 
 
-
 $response = array(
     'message'=>'Successfully Login.',
     'success'=>true

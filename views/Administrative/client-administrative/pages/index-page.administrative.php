@@ -10,10 +10,15 @@
         return include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/client-administrative/pages/visitor-appointment-request-page.administrative.php');
     }else if( strval( $url)  === "/freight/administrative/visitor-dashboard/company-facility"){
         return include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/client-administrative/pages/visitor-company-facility-page.administrative.php');
-    }else if( strval( $url)  === "/freight/administrative/visitor-dashboard/company-facility/$facility_id"){
+    }else if(isset($facility_id) && strval( $url)  === "/freight/administrative/visitor-dashboard/company-facility/$facility_id"){
         return include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/client-administrative/pages/facility.administrative.php');
-    }
-    else{
+    }else if(isset($visitor_request_id) && strval( $url)  === "/freight/administrative/visitor-dashboard/appointment-request/view/$visitor_request_id"){
+        return include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/client-administrative/components/appoinment-request-view.administrative.php');
+    }else if(isset($visitor_request_id) && strval( $url)  === "/freight/administrative/visitor-dashboard/appointment-request/edit/$visitor_request_id"){
+        return include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/client-administrative/components/appoinment-request-edit.administrative.php');
+    }else if(isset($visitor_request_id) && strval( $url)  === "/freight/administrative/visitor-dashboard/appointment-request/delete/$visitor_request_id"){
+        return include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/client-administrative/components/appoinment-request-delete.administrative.php');
+    }else{
         return include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/pages/404.php');
     }
 

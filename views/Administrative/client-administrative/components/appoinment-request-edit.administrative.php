@@ -25,11 +25,6 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
               <!-- content -->
                 <div class="mt-[64px] w-full h-[calc(100%-200px)] "> 
                     <div class="w-full h-full  relative ">
-                            <div class="flex gap-x-3 p-3 md:gap-y-0 gap-y-3 l flex-wrap absolute  top-0 left-0  bg-white shadow z-[50]">
-                                <button id="btn-1" class="md:text-md text-xs bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">company policy</button>
-                                <button id="btn-2" class="md:text-md text-xs bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">create request appoinment</button>
-                                <button id="btn-3" class="md:text-md text-xs bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">list of request appoinment</button>
-                            </div>
                             <div id="render-page" class="w-full h-full relative flex justify-center items-center  ">
                                 
                             </div>
@@ -39,7 +34,7 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
          </div>
     </div>
 </main >
-<div id="loading-qppointment-request" class="flex justify-center items-center  border-5 border-red-500 absolute top-0 bottom-0 left-0 right-0 z-[100] bg-white">
+<!-- <div id="loading-edit-appointment-request" class="flex justify-center items-center  border-5 border-red-500 absolute top-0 bottom-0 left-0 right-0 z-[100] bg-white">
     <div role="status">
         <svg class="inline mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
@@ -47,7 +42,7 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
         </svg>
         <span class="sr-only">Loading...</span>
     </div>
-</div>
+</div> -->
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -55,108 +50,40 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
 <script src="/freight/views/js/mobilenumber-country.js"></script>
 <script src="/freight/views/js/content-three-request-appoinment.js"></script>
 <script src="/freight/views/js/content-two-request-appointment.js"></script>
-
 <script>
-   $("#loading-qppointment-request").hide();
-    const fullname ="<?php echo $_SESSION['visitor_account']['fullname'] ?>"
-    const email ="<?php echo $_SESSION['visitor_account']['email'] ?>"
-    const mb_number ="<?php echo $_SESSION['visitor_account']['mb_number'] ?>"
-    const country = "<?php echo $_SESSION['visitor_account']['country'] ?>"
-    const address = "<?php echo $_SESSION['visitor_account']['address'] ?>"
+     let country = ''
+     let fullname = ''
+     let email = ''
+     let address = ''
+     let mb_number = ''
 </script>
 
-
+<script>
+    function fetchRequestAppointment(){
+        const requestVisiotrId = "<?php  echo $visitor_request_id; ?>"
+        $.ajax({
+            url: "/freight/view-appointment-request",
+            type: "post",
+            data: ({requestVisiotrId:requestVisiotrId}),
+            success: function (response) {
+                if(!response.appointment && !response.participants){
+                    window.location.href = "/freight/page-404"                
+                    return 
+                }
+                renderContent(response)
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus);
+            }
+        })    
+    }
+</script>
 
 <script>
     const renderPageContainer = document.querySelector('#render-page')
     
  const data =    [
-    `<div id="content-1" class="md:mt-36 mt-[300px] px-3  w-full h-full absolute left-0 -translate-x-[50%] "> 
-    <section class="w-full h-full">
-        <h1 class="text-indigo-500 font-['Bebas_Neue'] text-black md:text-[3rem] text-[2rem] font-semibold  tracking-[4px]">
-          You need to know about visiting
-        </h1>
-        <div class=" w-full h-auto relative mt-2 flex xl:flex-row flex-col xl:justify-center xl:items-center gap-x-4">
-          <div class="p-6 xl:max-w-sm w-full bg-white xl:rounded-lg xl:border xl:border-gray-200 xl:shadow-md xl:dark:bg-gray-800 xl:dark:border-gray-700">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Purpose of this visitor policy
-            </h5>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              This workplace visitor policy will outline the rules that all
-              company associates are expected to follow when receiving guests of
-              any kind. Our workplace guest policies are intended to ensure that
-              visitors do not:
-            </p>
-            <ul class="pl-4 list-disc text-sm mb-4">
-              <li> Distract employees from work</li>
-              <li>Pose a threat to anyone's safety</li>
-              <li>Compromise any of our security systems or properties</li>
-            </ul>
-          </div>
-
-          <div class="p-6 xl:max-w-sm w-full bg-white xl:rounded-lg xl:border xl:border-gray-200 xl:shadow-md xl:dark:bg-gray-800 xl:dark:border-gray-700">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Who this visitor policy applies to
-            </h5>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              A "workplace visitor" refers to any non-employee who is visiting
-              for any reason. A workplace visitor can include:
-            </p>
-            <ul class="pl-4 list-disc text-sm mb-4">
-              <li> Clients</li>
-              <li>Public</li>
-              <li>Vendors</li>
-              <li>Job candidates</li>
-              <li>Temporary workers</li>
-              <li>Investors</li>
-              <li>Consultants</li>
-              <li>Students</li>
-              <li>Family members or friendspersonal visitors</li>
-            </ul>
-          </div>
-
-          <div class="p-6 xl:max-w-sm w-full bg-white xl:rounded-lg xl:border xl:border-gray-200 xl:shadow-md xl:dark:bg-gray-800 xl:dark:border-gray-700">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Visitor rules and procedures
-            </h5>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              A "workplace visitor" refers to any non-employee who is visiting
-              for any reason. A workplace visitor can include:
-            </p>
-            <ul class="pl-4  list-disc text-sm mb-4">
-              <li>
-                All visitors should have an appointment before they arrive.
-              </li>
-              <li>
-                All visitors must check in with the front desk or security gate,
-                front office, reception area, etc. and provide a form of
-                identification.
-              </li>
-              <li>
-                All visitors will be provided with a guest pass and must wear it
-                in a way that can be easily seen at all times.
-              </li>
-              <li>
-                Checked-in visitors must wait in the designated reception area
-                until they're met by the employee with whom they have an
-                appointment.
-              </li>
-              <li>
-                Visitors may not misuse our internet connection or disclose any
-                confidential information, which includes taking unauthorized
-                photos and recording audio or video without written consent.
-              </li>
-              <li>
-                Visitors must check out with the front desk and return their
-                guest card.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-    </div>`,
-
-    `<form id="content-2" class="border md:mt-36 mt-[320px] px-3  lg:w-[800px] w-full  h-[700px]   absolute left-0 -translate-x-[50%] overflow-y-scroll"> 
+    `<form id="content-2" class="border md:mt-36 mt-32 px-3  lg:w-[800px] w-full  h-[700px]   absolute left-2/4 -translate-x-[50%] overflow-y-scroll"> 
       <div class=" px-3 py-5 ">
       <div class="w-full h-auto my-10 px-3">
           <h1 class="md:text-2xl text-xl font-semibold tracking-[2px]">Visitor Appointment Request</h1>
@@ -217,52 +144,59 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
                   <button type="submit" data-modal-toggle="defaultModal" type="button" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg md:text-sm text-xs px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit Request</button>
             </div>
       </div>
-    </form>`,
-
-    `<div id="content-3" class="md:mt-36 mt-[450px]  px-3   lg:w-[800px] w-full  h-[700px] absolute left-0 -translate-x-[50%]"> 
-    </div>`,
+    </form>`
 ]
 
-let count = 0
 
-function buttonAction(cb ,value){
-  $(`#content-${count+1}`).animate({left:'200%'},500 ,function(){
-        count = value
-        renderPageContainer.innerHTML = data[count]
-        $(`#content-${count+1}`).animate({left:'50%'},500)
-        if(cb !== null){
-          cb()
-        }
-  })
+function renderContent(response){
+    const visitorAppointment = response.appointment[0]
+    const visitorAppointmentParticipants= response.participants
+    renderPageContainer.innerHTML = data[0]
+    country  = visitorAppointment.country
+    fullname = visitorAppointment.fullname
+    mb_number = visitorAppointment['mb-number']
+    address = visitorAppointment.address
+    email = visitorAppointment.email
+    $("#date-visit").val( visitorAppointment['date-visit'])
+    $("#time-visit").val( visitorAppointment['time-visit'])
+    $("#participants").val( visitorAppointment['participants'])
+    $("#purpose").val( visitorAppointment['purpose'])
+    incrementInputOfParticipantsDefaultValue(response.participants)
+    initContentTwo()
+
 }
 
-function buttonClick(){
-    $('#btn-1').click(function(){
-      buttonAction(null,0)
-    })
-    $('#btn-2').click(function(){
-      buttonAction(initContentTwo,1)
-    })
-    $('#btn-3').click(function(){
-      buttonAction(initContentThree,2)
-    })
+</script>
+
+<script>
+    function incrementInputOfParticipantsDefaultValue(defaultValueForParticipants) {
+  const input = document.querySelector("#participants");
+        console.log(input.value)
+
+  const participantsInput = document.querySelector("#participants-input");
+  console.log(participantsInput)
+
+  let additionalinput = "";
+    if (input.value === "" || input.value === "0") {
+      additionalinput = "";
+    }
+    for (let i = 0; i <= parseInt(input.value) - 1; i++) {
+      additionalinput += `
+    <div class="flex gap-x-4 w-full h-auto md:flex-row flex-col border-b-4 border-gray-500 p-1">
+        <div class="form-group  md:mt-2 rounded-lg w-full">
+            <label for="participant-fullname-${i}" class="text-[11px] uppercase text-indigo-900 font-semibold">Participant Fullname</label>
+            <input type="text" name="participant-fullname-${i}" value="${defaultValueForParticipants[i].fullname}" id="participant-fullname-${i}" class="form-control m-0" required>
+        </div>
+    </div>
+    `;
+    }
+
+    participantsInput.innerHTML = additionalinput;
 }
+</script>
 
-function renderContent(){
-    renderPageContainer.innerHTML = data[count]
-
-    $(`#content-${count+1}`).animate({left:'50%'},500)
-    buttonClick()
-}
-
-function afterCreateAppointment(){
-  buttonAction(initContentThree,2)
-}
-
-renderContent()
-
-
-
+<script>
+    fetchRequestAppointment()
 </script>
 
 

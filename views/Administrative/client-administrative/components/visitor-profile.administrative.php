@@ -1,6 +1,7 @@
 
 <link rel="stylesheet" href="/freight/views/css/date-picker.css">
 <link rel="stylesheet" href="/freight/views/css/form-style.css">
+
 <?php
 function limitString($string){
     $new_string =  mb_strimwidth($string, 0, 30, "...");

@@ -1,3 +1,0 @@
-<div>
-     appointment list
-</div>

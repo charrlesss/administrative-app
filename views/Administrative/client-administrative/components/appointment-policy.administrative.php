@@ -1,3 +1,0 @@
-<div>
-     appointment policy
-</div>
