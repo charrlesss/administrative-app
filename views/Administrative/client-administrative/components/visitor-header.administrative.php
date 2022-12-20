@@ -1,3 +1,28 @@
+<style>
+    span.ripples {
+  position: absolute;
+  background: #cbd5e1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border-radius: 50%;
+  animation: animate 1s linear infinite;
+  top:50%;
+  left:50%;
+  tranform:translate(-50%,-50%);
+}
+@keyframes animate {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.5;
+  }
+  100% {
+    width: 50px;
+    height: 50px;
+    opacity: 0;
+  }
+}
+</style>
 <div class="flex gap-2 p-2 ">
     <button id="menu-btn-main" class="xl:hidden flex cursor-pointer  items-center p-1 text-pink-800 hover:text-gray-900 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
         <svg class="fill-current h-6 wb6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -31,20 +56,84 @@
     ?>
 </div>
 
-<div class="flex items-center gap-x-4 py-3">
-<div class="w-auto h-auto  p-1 cursor-pointer">
-<svg class="h-5 w-5 text-indigo-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />  <path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>                </div>
-<a href="#">
-<img
-    class=" p-1 w-10 h-10 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
-    src="
-    <?php 
-    $profile = $_SESSION['visitor_account']['profile'];
-    echo $GLOBALS['url']."/assets/profile/$profile"; 
-    ?>"
-alt="logo"
-class=" rounded-full absolute top-[50%] left-[50%] -translate-y-2/4 -translate-x-2/4 min-h-full min-w-full block"
-/>
+<div class="flex items-center gap-x-5 py-3">
+<div class="w-auto h-auto  p-1  relative">
+
+    <div class=" transition-all duration-500 w-auto h-auto  relative   rounded-full hover:bg-indigo-50" 
+    id="notification">
+        <div class="absolute -left-[185px] top-5 flex flex-col  hidden " id="notification-messages-container">
+            
+        <div class="w-5 overflow-hidden inline-block pl-2 absolute left-[170px] shadow-lg">
+                <div class=" h-5 w-4 bg-slate-50 rotate-45 transform origin-bottom-left"></div>
+            </div>
+
+            <div class="absolute top-5 bg-slate-50 w-[300px] h-[400px] overflow-y-auto overflow-x-hidden shadow-lg relative">
+                <div class="flex justify-between p-2 border-b ">
+                    <h1 class="font-semibold ">Notifications</h1>
+                    <span id="read-all" class="flex gap-x-1 items-center cursor-pointer relative ">
+                        <svg class="h-3 w-3 text-blue-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />  <polyline points="22 4 12 14.01 9 11.01" /></svg>
+                        <p class="text-blue-500 text-xs ">Mark as read</p>
+                    </span>
+                </div>
+                <ul id="notification-list"  class="h-auto w-full">
+                </ul>
+            </div>
+
+        </div>
+        <svg class=" cursor-pointer h-5 w-5 text-indigo-500 z-[50]"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />  <path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>                </div>
+        <p 
+        data-notification-count="10" 
+        id="notification-count" 
+        class="cursor-pointer absolute  z-[60] text-xs -top-2 left-3 min-w-[1.25rem] min-h-[1.25rem] px-1 flex justify-center items-center rounded-full text-white bg-red-500 "></p>
+    </div>
+
+    <a href="/freight/administrative/visitor-dashboard/profile">
+    <img
+        class=" p-1 w-10 h-10 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
+        src="
+        <?php 
+        $profile = $_SESSION['visitor_account']['profile'];
+        echo $GLOBALS['url']."/assets/profile/$profile"; 
+        ?>"
+    alt="logo"
+    class=" rounded-full absolute top-[50%] left-[50%] -translate-y-2/4 -translate-x-2/4 min-h-full min-w-full block"
+    />
 </a>
 </div>
+
+<script src="/freight/views/js/fetch-history.js"></script>
+
+<script>
+    const profileImageHeader = "<?php echo $GLOBALS['url']."/assets/img/truck.png"; ?>"
+    const notificationCount = $("#notification-count")[0]
+</script>
+
+<script>
+   function ripplesEffect(e,element){
+    let x = e.clientX - e.target.offsetLeft;
+    let y = e.clientY - e.target.offsetTop;
+    
+    let ripples = document.createElement('span');
+    ripples.className="ripples"
+    // ripples.style.left = (x + y)+ 'px';
+    // ripples.style.top = y + 'px';
+    element.appendChild(ripples);
+    
+     setTimeout(() => {
+      ripples.remove()
+    },1000);
+    }
+</script>
+
+<script>
+    $("#notification").click(function(e){
+    $("#notification-messages-container").toggle('hidden')
+        ripplesEffect(e,$("#notification")[0])
+    })
+</script>
+
+<script>
+fetchUserHistory()
+MarkAllAsRead();
+</script>
 

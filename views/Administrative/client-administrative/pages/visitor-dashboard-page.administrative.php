@@ -1,7 +1,7 @@
 <?php
 include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-setup-administrative.php');
+   
 ?>
-  <link rel="stylesheet" href="sweetalert2.min.css">
     <script src=
 "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" >
     </script>
@@ -25,7 +25,7 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
 
         <div class="w-full h-full overflow-x-hidden relative">
         <!-- header -->
-            <div id="visitor-header" class="absolute bg-white z-[50] top-0 r-0 l-0  w-full shadow-lg">
+            <div id="visitor-header" class="absolute bg-white z-[60] top-0 r-0 l-0  w-full shadow-lg">
                 <div  class="flex justify-between  pl-3 xl:pr-20 pr-10 items-center">
                     <?php
                 include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/client-administrative/components/visitor-header.administrative.php');
@@ -128,6 +128,7 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
             }
         ?>
 </main>
+<!-- <script src="/freight/views/js/content-three-request-appoinment.js"></script> -->
 
 <?php
 include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/footer-setup-administrative.php');

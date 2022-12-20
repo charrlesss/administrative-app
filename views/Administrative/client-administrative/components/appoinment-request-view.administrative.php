@@ -3,7 +3,7 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
 ?>
 <header>
 <body >
-<main class="w-screen h-screen ">
+<main class="w-screen h-screen  ">
     <div class="flex relative h-full w-full ">
          <!-- sidebar -->
         <?php
@@ -20,9 +20,9 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
                 </div>
             </div>
 
-    <div class="relative  w-full h-screen  flex justify-center ">
-      <div class="mt-16 p-3 relative  w-full  h-full  flex justify-center border relative">
-        <div class=" relative md:w-[700px] w-full border h-[850px] p-3 shadow-xl">
+    <div class="relative  w-full h-screen  flex justify-center bg-gray-500 ">
+      <div class="mt-16 p-3 relative  w-full  h-full  flex justify-center border relative bg-gray-500">
+        <div class=" relative md:w-[700px] w-full border h-[850px] p-3 shadow-xl bg-white">
             <p id="status" class='absolute border top-2 right-2 p-1 rounded-lg'>asdasd</p>
             <div class=" absolute top-11 flex flex-col gap-y-2 right-0 bg-white p-2">
                 <a href ='/freight/administrative/visitor-dashboard/appointment-request' class='border'>
@@ -31,9 +31,9 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
                 <button id="edit" class='border'>
                     <svg class="h-6 w-6 hover:text-green-500 text-indigo-500"  viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />  <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />  <line x1="16" y1="5" x2="19" y2="8" /></svg>
                 </button>
-                <a id="delete" class='border'>
+                <button id="delete" class='border'>
                 <svg class="h-6 w-6 hover:text-green-500 text-indigo-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="18" y1="6" x2="6" y2="18" />  <line x1="6" y1="6" x2="18" y2="18" /></svg>
-                </a>
+                </button>
             </div>
 
           <h1 class="text-2xl mb-5 mt-7">Visitor Request Form</h1>
@@ -143,6 +143,8 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
     </div>
 </div>
 </main >
+
+
 <script>
  function convertTime(value){
    const time = value.split(':')[0]
@@ -172,11 +174,13 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
     }else if(currentTime === 21){
         return `0${9}:${sec} ${dayShift}`
     }else if(currentTime === 22){
-        return `0${10}:${sec} ${dayShift}`
+        return `${10}:${sec} ${dayShift}`
     }else if(currentTime === 23){
-        return `0${11}:${sec} ${dayShift}`
+        return `${11}:${sec} ${dayShift}`
     }else if(currentTime === 24){
-        return `0${12}:${sec} ${dayShift}`
+        return `${12}:${sec} ${dayShift}`
+    }else{
+      return `${value} ${dayShift}`
     }
   }
 </script>
@@ -203,6 +207,7 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
     }
 
 </script>
+
 <script>
     function display(response){
         const visitorAppointment = response.appointment[0]
@@ -245,14 +250,31 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
        
       if(visitorAppointment.status.trim() !== "under review"){
         $('#edit').attr("disabled","disabled");
+        deleteTag.setAttribute("disabled","disabled")
+        deleteTag.classList.add('cursor-not-allowed')
         editTag.classList.add('cursor-not-allowed')
+        deleteTag.querySelector('svg').classList.remove('hover:text-green-500')
         editTag.querySelector('svg').classList.remove('hover:text-green-500')
       }else{
         $('#edit').click(function(){
           window.location.href = ("href",  `/freight/administrative/visitor-dashboard/appointment-request/edit/${visitorAppointment.visitor_request_id}`);
         })
+        $('#delete').click(function(){
+          Swal.fire({
+              title: "Are you sure?",
+              text: "You won't be able to revert this!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Yes, delete it!",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = `/freight/administrative/visitor-dashboard/appointment-request/delete/${visitorAppointment.visitor_request_id}`;
+              }
+            });
+        })
       }
-      deleteTag.setAttribute("href",  `/freight/administrative/visitor-dashboard/appointment-request/delete/${visitorAppointment.visitor_request_id}`);
 
    }
 </script>
@@ -271,6 +293,7 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
                 window.location.href = "/freight/page-404"                
                 return 
             }
+            
             display(response)
         },
         error: function(jqXHR, textStatus, errorThrown) {

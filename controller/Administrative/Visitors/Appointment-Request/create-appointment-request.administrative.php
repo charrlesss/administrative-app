@@ -15,18 +15,19 @@ $visitor_participants_id = $_SESSION["user_login_administrative"];
 $purpose = $_POST['purpose'];
 
 $newRequestId = createVisitorRequestAppointment(
-$fullname,
-$email,
-$country,
-$mb_number,
-$time_visit,
-$date_visit,
-$address,
-$participants,
-$visitor_id,
-$visitor_participants_id,
-$purpose
+    $fullname,
+    $email,
+    $country,
+    $mb_number,
+    $time_visit,
+    $date_visit,
+    $address,
+    $participants,
+    $visitor_id,
+    $visitor_participants_id,
+    $purpose
 );
+
 storeRequestAppointmentInVisitorManagement(
     $fullname,
     $email,
@@ -38,10 +39,12 @@ storeRequestAppointmentInVisitorManagement(
     $participants,
     $visitor_id,
     $visitor_participants_id,
-    $purpose 
+    $purpose,
+    $newRequestId
 );
-createRequestAppointmentHistory($visitor_id);
+createRequestAppointmentHistory($visitor_id ,'You are create a new appointment request.');
 getRequestAppointmentByVisitorId($visitor_id);
+
 $index = 0;
 foreach ($_POST as $param_name => $param_val) {
     if($index > 8){

@@ -71,3 +71,22 @@ function get_user_by_id(){
   }
     
       
+
+  function get_user_by_id_params($visitor_id){
+    $db = $GLOBALS["db"];
+    $sql ="SELECT `fullname`, `email`, `verify-email`,  `mb_number`,`createdAt`, `profile`, `gender`, `birthdate`, `address`, `country` FROM `visitor-account` WHERE `visitor_id` = '$visitor_id'";
+    $isFind = $db->query($sql);
+    if(!$isFind) return flase;
+
+    $resultData = $isFind->fetch_assoc();
+    return $resultData ;
+  }
+
+
+  function getAllVisitor(){
+    $db = $GLOBALS["db"];
+    $sql ="SELECT * FROM `visitor-account`";
+    $result = $db->query($sql);
+    $resultData = $result->fetch_all();
+    return $resultData ;
+  }

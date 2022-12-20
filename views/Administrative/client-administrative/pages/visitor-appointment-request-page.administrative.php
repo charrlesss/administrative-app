@@ -15,7 +15,7 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
 
         <div class="w-full h-full overflow-x-hidden relative">
         <!-- header -->
-            <div id="visitor-header" class="absolute bg-white z-[50] top-0 r-0 l-0  w-full shadow-lg">
+            <div id="visitor-header" class="absolute bg-white z-[60] top-0 r-0 l-0  w-full ">
                 <div  class="flex justify-between  pl-3 xl:pr-20 pr-10 items-center">
                     <?php
                 include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/client-administrative/components/visitor-header.administrative.php');
@@ -55,6 +55,7 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
 <script src="/freight/views/js/mobilenumber-country.js"></script>
 <script src="/freight/views/js/content-three-request-appoinment.js"></script>
 <script src="/freight/views/js/content-two-request-appointment.js"></script>
+<script src="/freight/views/js/fetch-history.js"></script>
 
 <script>
    $("#loading-qppointment-request").hide();
@@ -66,6 +67,39 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
 </script>
 
 
+
+<script>
+  function handleSubmit() {
+  const form = document.querySelector("#content-2");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    $("#loading-qppointment-request").show();
+    $.ajax({
+      type: "POST",
+      url: "/freight/create-appointment-request",
+      data: $("#content-2").serialize(),
+      dataType: "json",
+      success: function (response) {
+        fetchUserHistory()
+        const timeout = setTimeout(() => {
+          $("#loading-qppointment-request").hide();
+          clearTimeout(timeout);
+          Swal.fire({
+            icon: "success",
+            title: response.message,
+            showCancelButton: true,
+            confirmButtonText: "View Request Appointment",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              afterCreateAppointment();
+            }
+          });
+        }, 2000);
+      },
+    });
+  });
+}
+</script>
 
 <script>
     const renderPageContainer = document.querySelector('#render-page')

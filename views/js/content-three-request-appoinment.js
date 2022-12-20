@@ -20,14 +20,13 @@ function fetch_Data() {
         appointment: res.request_appointment,
       });
       displayData();
+      hanldeClickDelete();
     },
   });
 }
 
 function displayData() {
   const content = document.querySelector("#content-3");
-  console.log(content);
-  console.log(fetchRequestCreated);
 
   if (!content) return;
 
@@ -69,7 +68,31 @@ function displayData() {
 </div>
    
   `;
+
   content.innerHTML = display;
+}
+
+function hanldeClickDelete() {
+  $("button[id='delete-request-appointment-visitor']").each(function (
+    _,
+    element
+  ) {
+    element.addEventListener("click", function () {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = `/freight/administrative/visitor-dashboard/appointment-request/delete/${element.dataset.requestId}`;
+        }
+      });
+    });
+  });
 }
 
 function tableData() {
@@ -109,11 +132,11 @@ function tableData() {
         }">
           <svg class="h-4 w-4 text-purple-500"  viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />  <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />  <line x1="16" y1="5" x2="19" y2="8" /></svg>
         </a>
-        <a href="/freight/administrative/visitor-dashboard/appointment-request/delete/${
+        <button id="delete-request-appointment-visitor" data-request-id="${
           data["visitor_request_id"]
-        }">
+        }" >
           <svg class="h-4 w-4 text-red-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z" />  <line x1="18" y1="9" x2="12" y2="15" />  <line x1="12" y1="9" x2="18" y2="15" /></svg>
-        </a>
+        </button>
     </td>
   </tr>`;
   });

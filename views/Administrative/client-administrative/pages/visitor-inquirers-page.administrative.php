@@ -20,9 +20,18 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
                 ?>
                 </div>
             </div>
-
-                <div>
-                inquirers
+                <div class=" relative w-full h-[calc(100%-100px)] mt-24 px-2">
+                    <h1 class="text-2xl text-indigo-700 font-semibold uppercase my-5">
+                        inquirers
+                    </h1>
+                    <div class="w-full h-[calc(100%-100px)] relative  flex flex-col">
+                        <?php
+                        include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/client-administrative/components/chat-messages.administrative.php');
+                        ?>
+                        <?php
+                        include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/client-administrative/components/chat-input-messages.administrative.php');
+                        ?>
+                    </div>
                 </div>
         </div>
 

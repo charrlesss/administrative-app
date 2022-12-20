@@ -34,7 +34,7 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
          </div>
     </div>
 </main >
-<!-- <div id="loading-edit-appointment-request" class="flex justify-center items-center  border-5 border-red-500 absolute top-0 bottom-0 left-0 right-0 z-[100] bg-white">
+<div id="loading-edit-appointment-request" class="flex justify-center items-center  border-5 border-red-500 absolute top-0 bottom-0 left-0 right-0 z-[100] bg-white">
     <div role="status">
         <svg class="inline mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
@@ -42,7 +42,7 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
         </svg>
         <span class="sr-only">Loading...</span>
     </div>
-</div> -->
+</div> 
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -50,13 +50,95 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
 <script src="/freight/views/js/mobilenumber-country.js"></script>
 <script src="/freight/views/js/content-three-request-appoinment.js"></script>
 <script src="/freight/views/js/content-two-request-appointment.js"></script>
+<script src="/freight/views/js/fetch-history.js"></script>
+
 <script>
-     let country = ''
-     let fullname = ''
-     let email = ''
-     let address = ''
-     let mb_number = ''
+    $("#loading-edit-appointment-request").hide();
 </script>
+
+<script>
+    let fullname = ''
+    let email = ''
+    let country = ''
+    let mb_number = ''
+     let address = ''
+     let dateVisit = ''
+     let timeVisit = ''
+     let participants = ''
+     let purpose = ''
+</script>
+
+<script>
+    function noChangesFound(formData){
+        console.log(formData)
+        if(formData['fullname'] === fullname &&
+        formData['email'] === email &&
+        formData['country-mb'] === country &&
+        formData['mb-number'] === mb_number &&
+        formData['address'] === address &&
+        formData['date-visit'] === dateVisit &&
+        formData['time-visit'] === timeVisit &&
+        formData['participants'] === participants &&
+        formData['purpose'] === purpose ){
+            $("#loading-edit-appointment-request").hide();
+            return true
+        }
+    $("#loading-edit-appointment-request").hide();
+    return false
+    }
+</script>
+
+<script>
+  function handleSubmit() {
+  const form = document.querySelector("#content-2");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    $("#loading-edit-appointment-request").show();
+    const requestVisitorId = "<?php  echo $visitor_request_id; ?>"
+    var data = $("#content-2").serializeArray();
+    data.splice( 9,0,{name:'requestId',value:requestVisitorId})
+
+    const formData = data.reduce(
+    (previousObject, currentObject) => {
+        return Object.assign(previousObject, {
+            [currentObject.name]: currentObject.value
+        })
+    },
+    {});
+    if(noChangesFound(formData)){
+        return Swal.fire({
+            icon: 'warning',
+            text:'Oppps change some field if you want to update your appointment request.',
+            showConfirmButton: true,
+        })
+    }
+
+    $.ajax({
+      type: "POST",
+      url: "/freight/edit-appointment-request",
+      data:(formData),
+      dataType: "json",
+      success: function (response) {
+          $("#loading-edit-appointment-request").hide();
+          fetchUserHistory()
+          Swal.fire({
+            icon: 'success',
+            text:response.message,
+            showConfirmButton: false,
+            timer: 1000
+        }).finally(()=>{
+            window.location.reload()
+        })
+
+      },
+      error:function (_,__,err){
+        console.log(err)
+      }
+    });
+  });
+}
+</script>
+
 
 <script>
     function fetchRequestAppointment(){
@@ -73,7 +155,6 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
                 renderContent(response)
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                console.log(textStatus);
             }
         })    
     }
@@ -157,10 +238,14 @@ function renderContent(response){
     mb_number = visitorAppointment['mb-number']
     address = visitorAppointment.address
     email = visitorAppointment.email
-    $("#date-visit").val( visitorAppointment['date-visit'])
-    $("#time-visit").val( visitorAppointment['time-visit'])
-    $("#participants").val( visitorAppointment['participants'])
-    $("#purpose").val( visitorAppointment['purpose'])
+    dateVisit = visitorAppointment['date-visit']
+    timeVisit = visitorAppointment['time-visit']
+    participants = visitorAppointment['participants']
+    purpose = visitorAppointment['purpose']
+    $("#date-visit").val(dateVisit)
+    $("#time-visit").val(timeVisit)
+    $("#participants").val(participants)
+    $("#purpose").val(purpose)
     incrementInputOfParticipantsDefaultValue(response.participants)
     initContentTwo()
 
@@ -171,10 +256,7 @@ function renderContent(response){
 <script>
     function incrementInputOfParticipantsDefaultValue(defaultValueForParticipants) {
   const input = document.querySelector("#participants");
-        console.log(input.value)
-
   const participantsInput = document.querySelector("#participants-input");
-  console.log(participantsInput)
 
   let additionalinput = "";
     if (input.value === "" || input.value === "0") {
