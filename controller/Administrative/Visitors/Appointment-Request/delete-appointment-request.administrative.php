@@ -1,6 +1,6 @@
 <?php
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/appointment-request.administrative.php');
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/history-administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/appointment-request.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/history-administrative.php');
 
 $visitor_request_id = $_POST['requestId'];
 $visitor_id = $_SESSION["user_login_administrative"];

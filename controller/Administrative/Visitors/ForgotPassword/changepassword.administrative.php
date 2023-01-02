@@ -1,5 +1,5 @@
 <?php
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/query-method.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/query-method.php');
 
 unset($_POST['confirmPassword']);
 $password =password_hash($_POST['password'],PASSWORD_BCRYPT);

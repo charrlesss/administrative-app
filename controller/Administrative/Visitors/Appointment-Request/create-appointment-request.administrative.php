@@ -1,6 +1,7 @@
 <?php
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/appointment-request.administrative.php');
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/history-administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/appointment-request.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/history-administrative.php');
+
 
 $fullname =$_POST['fullname'];
 $email = $_POST['email'];

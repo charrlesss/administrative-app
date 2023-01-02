@@ -13,6 +13,7 @@ function sortArray(arr) {
 function fetchUserHistory() {
   const itemContainer = document.getElementById("notification-list");
   itemContainer.innerHTML = "";
+
   $.ajax({
     url: "/freight/get-history",
     type: "GET",
@@ -73,7 +74,6 @@ function fetchUserHistory() {
 function notificationHandleClick(item, id, countNotificationNotSeen) {
   item.addEventListener("click", (e) => {
     e.stopPropagation();
-    console.log(countNotificationNotSeen);
     if (countNotificationNotSeen === 0) {
       return;
     }

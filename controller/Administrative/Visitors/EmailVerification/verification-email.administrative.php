@@ -1,5 +1,5 @@
 <?php
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/query-method.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/query-method.php');
 $otp =  $_POST['otp'];
 $email = $_SESSION["verify-email-administrative"];
 

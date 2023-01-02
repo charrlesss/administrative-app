@@ -1,7 +1,7 @@
 <?php
 
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/appointment-request.administrative.php');
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/visitor.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/appointment-request.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/visitor.administrative.php');
 
 $visitorToday = [];
 $allRequestAppoinment = getAllAppointmentRequest(date('Y-m-d'));

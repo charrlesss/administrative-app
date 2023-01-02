@@ -1,6 +1,6 @@
 
 <?php
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/appointment-request.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/appointment-request.administrative.php');
 
 $view_appointment = getRequestAppointmentbyId($_POST['requestVisiotrId']);
 if(count($view_appointment) == 0){

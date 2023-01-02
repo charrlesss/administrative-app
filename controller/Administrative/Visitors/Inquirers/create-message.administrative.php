@@ -1,20 +1,18 @@
 <?php
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/inquirers.administrative.php');
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/user-management.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/inquirers.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/user-management.administrative.php');
 
 $visitor_id = $_SESSION["user_login_administrative"];
 $message = $_POST['message'];
 $visitor_mangement_key= getKeyAccountVisitorManagement();
 $visitor_account = findUserAccount($visitor_id);
+
 if(empty($visitor_account)){
 
    $room_id = insertInquirersDetails(
-        $visitor_mangement_key['profile'],
-        $visitor_mangement_key['fullname'],
         $visitor_id,
         $visitor_mangement_key['key']
     );
-
     insertInquirersMessages(
         $message,
         $visitor_id,
@@ -29,6 +27,8 @@ if(empty($visitor_account)){
         
         header('Content-Type: application/json; charset=utf-8');
         echo  json_encode($response);
+
+        return;
 }
 
     insertInquirersMessages(

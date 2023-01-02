@@ -1,6 +1,6 @@
 <?php
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/inquirers.administrative.php');
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/user-management.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/inquirers.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/user-management.administrative.php');
 
 // $room_id = $_SESSION["user_login_administrative"];
 // $from_id =  $_SESSION["user_login_administrative"];

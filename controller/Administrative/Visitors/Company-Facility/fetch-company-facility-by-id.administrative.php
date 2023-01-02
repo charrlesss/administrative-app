@@ -1,6 +1,6 @@
 <?php
 
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/company-facility.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/company-facility.administrative.php');
 
   $response = array(
    "facility"=>get_compant_facility_by_id($facility_id),

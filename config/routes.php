@@ -1,7 +1,8 @@
 
 <?php
 //view
-if(empty($_SESSION["user_login_administrative"])){
+
+if(empty($_SESSION["user_login_administrative"]) && empty($_SESSION['visitor-management-account'])){
     if(!empty( $_SESSION["verify-email-administrative"]) ){
         get('/', 'views/Administrative/pages/landing-page.administrative.php');
         get('/administrative-login', 'views/Administrative/pages/login-page.administrative.php');
@@ -21,22 +22,28 @@ if(empty($_SESSION["user_login_administrative"])){
         get('/administrative-forgot-password', 'views/Administrative/pages/forgot-password-page.administrative.php');
         get('/administrative/admin', 'views/Administrative/pages/admin-login-page.administrative.php');
     }
-}
-else{
+}else{
     //client
-    if($_SESSION["user_login_administrative"]){
+    if(!empty($_SESSION["user_login_administrative"])){
         if(!empty($_SESSION["forgot-password-administrative"])){
             get('/administrative-change-password/$secret', 'views/Administrative/pages/change-password.administrative.php');
         }
-        get('/administrative/visitor-dashboard','views/Administrative/client-administrative/pages/index-page.administrative.php');
-        get('/administrative/visitor-dashboard/profile','views/Administrative/client-administrative/pages/index-page.administrative.php');
-        get('/administrative/visitor-dashboard/inquirers','views/Administrative/client-administrative/pages/index-page.administrative.php');
-        get('/administrative/visitor-dashboard/appointment-request','views/Administrative/client-administrative/pages/index-page.administrative.php');
-        get('/administrative/visitor-dashboard/appointment-request/view/$visitor_request_id','views/Administrative/client-administrative/pages/index-page.administrative.php');
-        get('/administrative/visitor-dashboard/appointment-request/edit/$visitor_request_id','views/Administrative/client-administrative/pages/index-page.administrative.php');
-        get('/administrative/visitor-dashboard/appointment-request/delete/$visitor_request_id','views/Administrative/client-administrative/pages/index-page.administrative.php');
-        get('/administrative/visitor-dashboard/company-facility','views/Administrative/client-administrative/pages/index-page.administrative.php');
-        get('/administrative/visitor-dashboard/company-facility/$facility_id','views/Administrative/client-administrative/pages/index-page.administrative.php');
+        get('/administrative/visitor-dashboard','views/Administrative/visitor-administrative/pages/index-page.administrative.php');
+        get('/administrative/visitor-dashboard/profile','views/Administrative/visitor-administrative/pages/index-page.administrative.php');
+        get('/administrative/visitor-dashboard/inquirers','views/Administrative/visitor-administrative/pages/index-page.administrative.php');
+        get('/administrative/visitor-dashboard/appointment-request','views/Administrative/visitor-administrative/pages/index-page.administrative.php');
+        get('/administrative/visitor-dashboard/appointment-request/view/$visitor_request_id','views/Administrative/visitor-administrative/pages/index-page.administrative.php');
+        get('/administrative/visitor-dashboard/appointment-request/edit/$visitor_request_id','views/Administrative/visitor-administrative/pages/index-page.administrative.php');
+        get('/administrative/visitor-dashboard/appointment-request/delete/$visitor_request_id','views/Administrative/visitor-administrative/pages/index-page.administrative.php');
+        get('/administrative/visitor-dashboard/company-facility','views/Administrative/visitor-administrative/pages/index-page.administrative.php');
+        get('/administrative/visitor-dashboard/company-facility/$facility_id','views/Administrative/visitor-administrative/pages/index-page.administrative.php');
+    }else if(!empty($_SESSION["visitor-management-account"])){
+        get('/administrative/admin/visitor-management-dashboard','views/Administrative/admin-administrative/visitor-management/pages/dashboard.administrative.php');
+        get('/administrative/admin/visitor-management-dashboard/profile','views/Administrative/admin-administrative/visitor-management/pages/profile.administrative.php');
+        get('/administrative/admin/visitor-management-dashboard/inquirers','views/Administrative/admin-administrative/visitor-management/pages/inquirers.administrative.php');
+        get('/administrative/admin/visitor-management-dashboard/inquirers/$participant_id','views/Administrative/admin-administrative/visitor-management/pages/inquirers-participant.administrative.php');
+        get('/administrative/admin/visitor-management-dashboard/appointment-request','views/Administrative/admin-administrative/visitor-management/pages/appointment-request.administrative.php');
+        get('/administrative/admin/visitor-management-dashboard/visitors','views/Administrative/admin-administrative/visitor-management/pages/visitors.administrative.php');
     }
 }
 
@@ -97,9 +104,21 @@ get('/get-total-visitor', 'controller/Administrative/Visitors/Visitor/total-visi
 
 //Administrative Admin ----->
 
+post('/visitor-management-authentication','controller/Administrative/Admin/Visitor-Management/authentication.administrative.php');
 
+//Inquirers visiotr management
+get('/get-inquirers-participants','controller/Administrative/Admin/Visitor-Management/get-inquirers-participants.php');
+post('/update-seen-inquirers-participants','controller/Administrative/Admin/Visitor-Management/update-seen.php');
+post('/create-message-visitor-management','controller/Administrative/Admin/Visitor-Management/create-message.php');
+post('/get-message-visitor-management','controller/Administrative/Admin/Visitor-Management/get-messages.php');
+post('/get-details-visitor-management','controller/Administrative/Admin/Visitor-Management/get-visitor-details.php');
 
+//Visitors
+get('/get-all-visitors-account','controller/Administrative/Admin/Visitor-Management/get-all-visitors.php');
 
+//Appointment
+get('/get-all-visitors-request-appointment-active','controller/Administrative/Admin/Visitor-Management/get-all-request-appointment-active.php');
+get('/get-all-visitors-request-appointment-deactive','controller/Administrative/Admin/Visitor-Management/get-all-request-appointment-deactive.php');
 
 //always in the bottom routes not found send 404 page
 any('/404','views/Administrative/pages/404.php');

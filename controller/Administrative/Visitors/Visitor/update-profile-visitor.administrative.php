@@ -1,6 +1,6 @@
 <?php
 
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/visitor.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/visitor.administrative.php');
 use Ramsey\Uuid\Uuid;
 $uuid = Uuid::uuid4();
 

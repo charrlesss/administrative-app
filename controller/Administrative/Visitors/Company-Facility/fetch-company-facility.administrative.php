@@ -1,6 +1,6 @@
 <?php
 
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/company-facility.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/company-facility.administrative.php');
 
 
 $fetch_facility = get_compant_facility();

@@ -1,5 +1,5 @@
 <?php
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/visitor.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/visitor.administrative.php');
 $totalVisitor  = getAllVisitor();
 $response = array(
     'total_visitor'=>count($totalVisitor),

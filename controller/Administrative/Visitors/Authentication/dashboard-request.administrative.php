@@ -1,6 +1,6 @@
 <?php
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/query-method.php');
-include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/visitor.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/query-method.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/visitor.administrative.php');
 
 $email = $_SESSION["verify-email-administrative"];
 $user = find_by_email('visitor-account',$email);
