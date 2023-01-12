@@ -1,4 +1,6 @@
 let countNotificationNotSeen = 0;
+const itemContainer = document.getElementById("notification-list");
+let countAffect = 0;
 function sortArray(arr) {
   arr.sort(function (a, b) {
     return (
@@ -10,18 +12,25 @@ function sortArray(arr) {
   return arr;
 }
 
-function fetchUserHistory() {
-  const itemContainer = document.getElementById("notification-list");
-  itemContainer.innerHTML = "";
-
+function fetchUserHistory(getURL, SeenURL) {
   $.ajax({
-    url: "/freight/get-history",
+    url: getURL,
     type: "GET",
     dataType: "json",
     success: function (res) {
+      if (countAffect !== 0 && countAffect !== res.affect) {
+        resetHistory();
+      }
+      countAffect = res.affect;
       countNotificationNotSeen = 0;
 
       sortArray(res.history).forEach((data, idx) => {
+        let id = null;
+        if (data.history_id) {
+          id = data.history_id;
+        } else if (data["visitor-management-history-id"]) {
+          id = data["visitor-management-history-id"];
+        }
         if (!Boolean(parseInt(data.seen))) {
           countNotificationNotSeen++;
         }
@@ -37,7 +46,7 @@ function fetchUserHistory() {
         const data_time = document.createElement("p");
         const img = document.createElement("img");
 
-        item.className = `py-4 border-b  px-2 text-xs cursor-pointer ${
+        item.className = `py-4 border-b  bg-white px-2 text-xs cursor-pointer ${
           !Boolean(parseInt(data.seen)) && "bg-gray-100"
         }`;
         container.className = "flex gap-x-2";
@@ -52,7 +61,16 @@ function fetchUserHistory() {
         }`;
 
         updateNotificationCount(countNotificationNotSeen);
-
+        if (itemContainer.childNodes.length === res.history.length) {
+          notificationHandleClick(
+            item,
+            id,
+            countNotificationNotSeen,
+            getURL,
+            SeenURL
+          );
+          return;
+        }
         itemContainer.append(item);
         item.append(container);
         container.append(subContainerTwo);
@@ -63,15 +81,30 @@ function fetchUserHistory() {
 
         notificationHandleClick(
           item,
-          data.history_id,
-          countNotificationNotSeen
+          id,
+          countNotificationNotSeen,
+          getURL,
+          SeenURL
         );
       });
     },
+    error: function (e, er, err) {
+      console.log(e, er, err);
+    },
   });
+
+  setTimeout(() => {
+    fetchUserHistory(getURL, SeenURL);
+  }, 1000);
 }
 
-function notificationHandleClick(item, id, countNotificationNotSeen) {
+function notificationHandleClick(
+  item,
+  id,
+  countNotificationNotSeen,
+  getURL,
+  SeenURL
+) {
   item.addEventListener("click", (e) => {
     e.stopPropagation();
     if (countNotificationNotSeen === 0) {
@@ -79,12 +112,13 @@ function notificationHandleClick(item, id, countNotificationNotSeen) {
     }
 
     $.ajax({
-      url: "/freight/seen-one-history",
+      url: SeenURL,
       type: "POST",
       data: { history_id: id },
       dataType: "json",
       success: function () {
-        fetchUserHistory();
+        resetHistory();
+        fetchUserHistory(getURL, SeenURL);
       },
     });
   });
@@ -100,21 +134,25 @@ function updateNotificationCount(countNotificationNotSeen) {
   notificationCount.textContent = notificationCount.dataset.notificationCount;
 }
 
-function MarkAllAsRead() {
+function MarkAllAsRead(getURL, seenURL, MarkAllAsReadUrl) {
   $("#read-all").click(function (e) {
     e.stopPropagation();
-    console.log(countNotificationNotSeen);
     if (countNotificationNotSeen === 0) {
       return;
     }
 
     $.ajax({
-      url: "/freight/seen-all-history",
+      url: MarkAllAsReadUrl,
       type: "GET",
       dataType: "json",
       success: function () {
-        fetchUserHistory();
+        resetHistory();
+        fetchUserHistory(getURL, seenURL);
       },
     });
   });
+}
+
+function resetHistory() {
+  itemContainer.innerHTML = "";
 }

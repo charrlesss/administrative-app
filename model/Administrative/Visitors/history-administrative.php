@@ -29,3 +29,10 @@ function seenAllHistoryById($visitor_id){
     $sql = "UPDATE `history` SET `seen`='$seen' WHERE `visitor_id` ='$visitor_id' ";
     $result = $db->query($sql);
 }
+
+function effectTableHistory($visitor_id){
+    $db = $GLOBALS["db"];
+    $sql = "SELECT * FROM `history` WHERE `visitor_id` ='$visitor_id'";
+    $result = $db->query($sql);
+    return $db->affected_rows;
+}

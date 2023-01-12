@@ -12,9 +12,11 @@ $address = $_POST['address'];
 $participants =$_POST['participants'];
 $purpose = $_POST['purpose'];
 $visitor_request_id  =  $_POST['requestId'];
-$visitor_id =$_SESSION["user_login_administrative"];
+$visitor_id =!empty($_SESSION["user_login_administrative"]) ? $_SESSION["user_login_administrative"]: $_POST['visitor_id'];
+
 deleteRequestAppointmentParticipantsById($visitor_id ,$visitor_request_id);
 updateVisitorManagementRequestAppointmentParticipants($visitor_request_id,$participants);
+
 $index = 0;
 foreach ($_POST as $param_name => $param_val) {
     if($index > 9){
@@ -23,6 +25,19 @@ foreach ($_POST as $param_name => $param_val) {
     $index++;
 }
 updateRequestAppointment(
+    $fullname,
+    $email,
+    $country,
+    $mb_number,
+    $address,
+    $time_visit,
+    $date_visit,
+    $participants,
+    $purpose,
+    $visitor_request_id
+);
+
+updateRequestAppointmentInVisitorManagement(
     $fullname,
     $email,
     $country,

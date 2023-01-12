@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="/freight/views/css/date-picker.css">
 <link rel="stylesheet" href="/freight/views/css/form-style.css">
 
+
 <?php
 function limitString($string){
     $new_string =  mb_strimwidth($string, 0, 30, "...");
@@ -108,7 +109,7 @@ function limitString($string){
                 <div class=" flex justify-between items-center pt-5  space-x-2 rounded-b ">
                     <div class="flex gap-x-3">
                         <button type="submit" data-modal-toggle="defaultModal" type="button" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg md:text-sm text-xs px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save Changes</button>
-                        <a href="/freight/administrative/visitor-dashboard/profile" data-modal-toggle="defaultModal" type="button" class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg md:text-sm text-xs px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Reset</a>
+                        <a href="/freight/administrative/admin/visitor-management-dashboard/profile" data-modal-toggle="defaultModal" type="button" class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg md:text-sm text-xs px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Reset</a>
                     </div>
                     <button type="button" id="btn-change-password" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg md:text-sm text-xs px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Change Password</button>
                 </div>
@@ -163,6 +164,9 @@ function limitString($string){
                         })
                     },2000)
                 },
+                error:(_,__,___)=>{
+                    console.log(_,__,___)
+                }
             })  
         })
     })
@@ -210,7 +214,7 @@ function limitString($string){
 
         $.ajax({
             type: 'post',
-            url: '/freight/visitor-update-profile',
+            url: '/freight/visitor-management-update-profile',
             data:formData,
             cache: false,
             contentType: false,
@@ -229,6 +233,9 @@ function limitString($string){
                    window.location.reload()
                 })
                 }, 2000);
+            },
+            error:(_,__,___)=>{
+                    console.log(_,__,___)
             }
         })
 
@@ -248,7 +255,7 @@ function limitString($string){
             $('#male').attr('checked', true);
         }
         $('#female').attr('checked', true);
-</script>
+</script>serialize
 
 
 <script>

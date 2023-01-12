@@ -27,7 +27,6 @@ $sql = "INSERT INTO `visitor-appointment-request`(
  return  $db->insert_id;
 }
 
-
 function createVisitorRequestAppointmentParticipants(
     $visitor_participants_id,
     $participants_fullname,
@@ -63,13 +62,13 @@ function storeRequestAppointmentInVisitorManagement(
 ){
     $db = $GLOBALS["db"];
     $time = time();
-   $sql = "INSERT INTO `appointment-request-visitor-management`(
+     $sql = "INSERT INTO `appointment-request-visitor-management`(
     `fullname`, `email`, `country`, `mb-number`, `time-visit`, `date-visit`,
-    `address`, `participants`, `visitor_id`, `visitor_participants_id`,`purpose`,`status`,`docu_status`,`createdAt`,`visitor_request_id`)
+    `address`, `participants`, `visitor_id`, `visitor_participants_id`,`purpose`,`status`,`docu_status`,`createdAt`,`visitor_request_id`, `vm_appointment_req_log`)
      VALUES 
      ('$fullname','$email','$country','$mb_number',
      '$time_visit','$date_visit','$address','$participants','$visitor_id','$visitor_participants_id',
-     '$purpose','under review','active','$time','$visitor_request_id')";
+     '$purpose','under review','active','$time','$visitor_request_id','$time')";
 
     $db->query($sql);
 }
@@ -82,7 +81,6 @@ function getRequestAppointmentbyId($visitor_request_id){
     $requestCreated =  $result->fetch_all(MYSQLI_ASSOC);
     return $requestCreated;
 }
-
 
 
 function getRequestAppointmentParticipantsById($visitor_id ,$visitor_request_id){
@@ -128,6 +126,36 @@ function updateRequestAppointment(
 }
 
 
+function updateRequestAppointmentInVisitorManagement(
+    $fullname,
+    $email,
+    $country,
+    $mb_number,
+    $address,
+    $time_visit,
+    $date_visit,
+    $participants,
+    $purpose,
+    $visitor_request_id
+){
+    $time = time();
+    $db = $GLOBALS["db"];
+    $sql=  "UPDATE `appointment-request-visitor-management` SET 
+    `fullname`='$fullname',
+    `email`='$email',
+    `country`='$country',
+    `mb-number`='$mb_number',
+    `time-visit`='$time_visit',
+    `date-visit`='$date_visit',
+    `address`='$address',
+    `participants`='$participants',
+    `purpose`='$purpose',
+    `vm_appointment_req_log` ='$time'
+    WHERE `visitor_request_id` ='$visitor_request_id'";
+    $db->query($sql);
+}
+
+
 
 function deleteRequestAppointment($visitor_request_id){
     $db = $GLOBALS["db"];
@@ -136,14 +164,16 @@ function deleteRequestAppointment($visitor_request_id){
 }
 
 function updateVisitorManagementRequestAppointmentStatus($visitor_request_id ,$status){
+    $time = time();
     $db = $GLOBALS["db"];
-    $sql= "UPDATE `appointment-request-visitor-management` SET `docu_status`='$status' WHERE `visitor_request_id`='$visitor_request_id'";
+    $sql= "UPDATE `appointment-request-visitor-management` SET  `vm_appointment_req_log` ='$time', `docu_status`='$status' WHERE `visitor_request_id`='$visitor_request_id'";
     $db->query($sql);
 }
 
 function updateVisitorManagementRequestAppointmentParticipants($visitor_request_id ,$participants){
+    $time = time();
     $db = $GLOBALS["db"];
-    $sql= "UPDATE `appointment-request-visitor-management` SET `participants`='$participants' WHERE `visitor_request_id`='$visitor_request_id'";
+    $sql= "UPDATE `appointment-request-visitor-management` SET  `vm_appointment_req_log` ='$time', `participants`='$participants' WHERE `visitor_request_id`='$visitor_request_id'";
     $db->query($sql);
 }
 
@@ -156,3 +186,7 @@ function getAllAppointmentRequest($date){
    $requestCreated =  $result->fetch_all(MYSQLI_ASSOC);
    return $requestCreated;
 }
+// updateVisitorManagementRequestAppointmentParticipants
+// updateRequestAppointment
+// appointment_req_log
+// vm_appointment_req_log

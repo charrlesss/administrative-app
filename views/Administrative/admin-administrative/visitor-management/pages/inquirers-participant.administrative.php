@@ -4,7 +4,6 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
 ?>
 <header>
 <body>
-
 <main class="w-screen h-screen ">
     <div class="flex relative h-full w-full ">
          <!-- sidebar -->

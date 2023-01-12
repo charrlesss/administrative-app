@@ -1,8 +1,10 @@
 <?php
 include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/inquirers.administrative.php');
 include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/user-management.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Admin/visitor-management.administrative.php');
 
 $visitor_id = $_SESSION["user_login_administrative"];
+$fullname = $_SESSION['visitor_account']['fullname'];
 $message = $_POST['message'];
 $visitor_mangement_key= getKeyAccountVisitorManagement();
 $visitor_account = findUserAccount($visitor_id);
@@ -20,6 +22,7 @@ if(empty($visitor_account)){
         $room_id
     );
 
+    createVisitorManagementHistory("$fullname has sent a messages on you.");
     $response = array(
         'message'=>'Send Successfully',
         'success'=>true,
@@ -37,7 +40,7 @@ if(empty($visitor_account)){
         $visitor_mangement_key['key'],
         $visitor_account['room_id']
     );
-
+    createVisitorManagementHistory("$fullname has sent a messages on you.");
 
 $response = array(
     'message'=>'Send Successfully',

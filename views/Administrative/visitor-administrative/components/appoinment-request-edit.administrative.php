@@ -47,10 +47,9 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-<script src="/freight/views/js/mobilenumber-country.js"></script>
+<script src="/freight/views/js/mobserializeArrayilenumber-country.js"></script>
 <script src="/freight/views/js/content-three-request-appoinment.js"></script>
 <script src="/freight/views/js/content-two-request-appointment.js"></script>
-<script src="/freight/views/js/fetch-history.js"></script>
 
 <script>
     $("#loading-edit-appointment-request").hide();
@@ -120,7 +119,6 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
       dataType: "json",
       success: function (response) {
           $("#loading-edit-appointment-request").hide();
-          fetchUserHistory()
           Swal.fire({
             icon: 'success',
             text:response.message,

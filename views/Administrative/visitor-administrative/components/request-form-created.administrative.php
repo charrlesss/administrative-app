@@ -27,8 +27,9 @@
         </div> 
     </div>
 </div> 
-
 <script src="/freight/views/js/content-three-request-appoinment.js"></script>
+
+
 <script>
     initContentThree()
 </script>

@@ -7,6 +7,7 @@ $userHistory = getHistoryById($visitor_id);
 
 $response = array(
     'history'=>$userHistory,
+    'affect'=>effectTableHistory($visitor_id)
 );
 
 header('Content-Type: application/json; charset=utf-8');

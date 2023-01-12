@@ -4,11 +4,10 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/controller/Shared/Authentication/au
 
 $employeeId = $_POST['employeeId'];
 $password = $_POST['password'];
-$department = 'visitor-management';
 
-$response = authUser($employeeId,$password ,$department ,function($user,$link){
-    $_SESSION['visitor-management-account'] = $user;
-    
+$response = authUser($employeeId,$password,function($user,$link,$department){
+    $_SESSION[$department.'-account'] = $user;
+    $_SESSION['account_id'] = $user['account_id'];
     return  array(
         'message'=>'Login Successfully.',
         'success'=>true,

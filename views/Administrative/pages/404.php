@@ -30,7 +30,7 @@
 
 
     <center class="mt-6">
-    <a href="<?php echo $_SESSION["user_login_administrative"] ? "/freight/administrative/visitor-dashboard" :"/freight" ?>" class="text-gray-500 font-mono text-xl bg-gray-200 p-3 rounded-md hover:shadow-md">Go back </a>
+    <a href="/freight" class="text-gray-500 font-mono text-xl bg-gray-200 p-3 rounded-md hover:shadow-md">Go back </a>
     </center>
     </div>
     

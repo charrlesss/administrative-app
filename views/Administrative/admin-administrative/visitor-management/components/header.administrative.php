@@ -100,7 +100,8 @@
     />
     </a>
     </div>
-<script src="/freight/views/js/fetch-history.js"></script>
+
+ <script src="/freight/views/js/fetch-history.js"></script>
 <script>
     const profileImageHeader = "<?php echo $GLOBALS['url']."/assets/img/truck.png"; ?>"
     const notificationCount = $("#notification-count")[0]
@@ -129,8 +130,12 @@
 </script>
 
 <script>
-    fetchUserHistory()
-    MarkAllAsRead();
-    updateNotificationCount(0);
-</script>
+const getURL = '/freight/get-visitor-management-history'
+const seenURL = '/freight/seen-visitor-management-history'
+const MarkAllAsReadURL = '/freight/mark-all-as-read-history'
 
+
+fetchUserHistory(getURL,seenURL)
+MarkAllAsRead(getURL,seenURL,MarkAllAsReadURL);
+updateNotificationCount(0);
+</script>

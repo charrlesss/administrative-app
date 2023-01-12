@@ -3,6 +3,8 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/appoi
 include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/history-administrative.php');
 
 
+
+$getId =!empty($_SESSION["user_login_administrative"]) ? $_SESSION["user_login_administrative"]: $_POST['visitor_id'];
 $fullname =$_POST['fullname'];
 $email = $_POST['email'];
 $country = $_POST['country-mb'];
@@ -11,8 +13,8 @@ $time_visit = $_POST['time-visit'];
 $date_visit =    $_POST['date-visit'];
 $address = $_POST['address'];
 $participants =$_POST['participants'];
-$visitor_id =$_SESSION["user_login_administrative"];
-$visitor_participants_id = $_SESSION["user_login_administrative"];
+$visitor_id =$getId;
+$visitor_participants_id = $getId;
 $purpose = $_POST['purpose'];
 
 $newRequestId = createVisitorRequestAppointment(

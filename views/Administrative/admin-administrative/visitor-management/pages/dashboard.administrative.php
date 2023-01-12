@@ -1,5 +1,7 @@
 <?php
 include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-setup-administrative.php');
+
+echo "asdasdasd"
 ?>
 <header>
 <body>

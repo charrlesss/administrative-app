@@ -55,7 +55,6 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
 <script src="/freight/views/js/mobilenumber-country.js"></script>
 <script src="/freight/views/js/content-three-request-appoinment.js"></script>
 <script src="/freight/views/js/content-two-request-appointment.js"></script>
-<script src="/freight/views/js/fetch-history.js"></script>
 
 <script>
    $("#loading-qppointment-request").hide();
@@ -80,7 +79,6 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
       data: $("#content-2").serialize(),
       dataType: "json",
       success: function (response) {
-        fetchUserHistory()
         const timeout = setTimeout(() => {
           $("#loading-qppointment-request").hide();
           clearTimeout(timeout);

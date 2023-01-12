@@ -1,9 +1,8 @@
 <?php
 include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Admin/visitor-management.administrative.php');
 $response =  array(
-    "visitors"=> getAllVisitorAccount(),
-    'lastrow'=>hasChangesVisitorAccountTable(),
-    'lastcount'=>affectVisitorAccountTable()
+    "visitors"=> getAllVisitorAccount((int)$_POST['status']),
+    'log'=>affectVisitorTable()
 ); 
 
 

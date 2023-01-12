@@ -20,14 +20,21 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
                 </div>
             </div>
 
-    <div class="relative  w-full h-screen  flex justify-center bg-gray-500 ">
+    <div class="relative  w-full h-screen  flex  justify-center bg-gray-500 ">
+      
       <div class="mt-16 p-3 relative  w-full  h-full  flex justify-center border relative bg-gray-500">
         <div class=" relative md:w-[700px] w-full border h-[850px] p-3 shadow-xl bg-white">
-            <p id="status" class='absolute border top-2 right-2 p-1 rounded-lg'>asdasd</p>
+            <p id="status" class='absolute border top-2 right-2 p-1 rounded-lg'></p>
+
             <div class=" absolute top-11 flex flex-col gap-y-2 right-0 bg-white p-2">
                 <a href ='/freight/administrative/visitor-dashboard/appointment-request' class='border'>
                     <svg class="h-6 w-6 hover:text-green-500  text-indigo-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="12" y1="5" x2="12" y2="19" />  <line x1="5" y1="12" x2="19" y2="12" /></svg>
                 </a>
+                <button id='get-qrcode' class='border'>
+                <svg class="h-6 w-6 text-indigo-500"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+                </svg>
+                </button>
                 <button id="edit" class='border'>
                     <svg class="h-6 w-6 hover:text-green-500 text-indigo-500"  viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />  <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />  <line x1="16" y1="5" x2="19" y2="8" /></svg>
                 </button>
@@ -140,6 +147,7 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
             
         </div>
       </div>
+   
     </div>
 </div>
 </main >
@@ -209,6 +217,7 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
 </script>
 
 <script>
+  
     function display(response){
         const visitorAppointment = response.appointment[0]
         const visitorAppointmentParticipants= response.participants
@@ -245,21 +254,25 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
             const  paticipantsTag =document.createElement('li')
             paticipantsTag.className = "text-xs font-semibold" 
             paticipantsTag.textContent =  data.fullname
-            participantContainer.append(paticipantsTag)
+            participantContainer.append(paticipantsTag  )
         });
        
+        if(visitorAppointment.status.trim() === "approved"){
+        $('#get-qrcode').click(function(){
+          window.location.href =`/freight/administrative/visitor-dashboard/appointment-request/qr-code/${visitorAppointment.visitor_request_id}`
+        })
+      }else{
+          $('#get-qrcode').hide()
+      }
+
       if(visitorAppointment.status.trim() !== "under review"){
-        $('#edit').attr("disabled","disabled");
-        deleteTag.setAttribute("disabled","disabled")
-        deleteTag.classList.add('cursor-not-allowed')
-        editTag.classList.add('cursor-not-allowed')
-        deleteTag.querySelector('svg').classList.remove('hover:text-green-500')
-        editTag.querySelector('svg').classList.remove('hover:text-green-500')
+        $('#edit').remove()
+        deleteTag.remove()
       }else{
         $('#edit').click(function(){
           window.location.href = ("href",  `/freight/administrative/visitor-dashboard/appointment-request/edit/${visitorAppointment.visitor_request_id}`);
         })
-        $('#delete').click(function(){
+        $('#delete').click(function(){  
           Swal.fire({
               title: "Are you sure?",
               text: "You won't be able to revert this!",
@@ -275,6 +288,7 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
             });
         })
       }
+
 
    }
 </script>

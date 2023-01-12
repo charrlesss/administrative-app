@@ -9,7 +9,7 @@ function initContentTwo() {
 function mobileNumber() {
   countryPN.forEach((data) => {
     const option = document.createElement("option");
-    if (data.name === country) {
+    if (country && data.name === country) {
       option.textContent = `(${data["dial_code"]})`;
       option.value = data.name;
       option.selected = true;

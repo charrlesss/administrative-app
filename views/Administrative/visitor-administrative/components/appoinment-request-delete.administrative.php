@@ -1,7 +1,8 @@
 <?php
 include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-setup-administrative.php');
 ?>
-
+<header>
+<body>
 <div id="visitor-header" class="absolute bg-white z-[50] top-0 r-0 l-0  w-full shadow-lg">
                 <div  class="flex justify-between  pl-3 xl:pr-20 pr-10 items-center">
                     <?php
@@ -18,7 +19,6 @@ include( $_SERVER['DOCUMENT_ROOT'].'/freight/views/Administrative/layout/header-
         <span class="sr-only">Loading...</span>
     </div>
 </div> 
-<script src="/freight/views/js/fetch-history.js"></script>
 
 <script>
 const formData = {requestId:"<?php  echo $visitor_request_id; ?>"}
@@ -29,7 +29,6 @@ $.ajax({
       data:(formData),
       dataType: "json",
       success: function (response) {
-    fetchUserHistory()
           $("#loading-delete-appointment-request").hide();
           Swal.fire({
             icon: 'success',

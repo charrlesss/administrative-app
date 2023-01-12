@@ -1,9 +1,9 @@
 <?php
 
 include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/visitor.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/history-administrative.php');
 use Ramsey\Uuid\Uuid;
 $uuid = Uuid::uuid4();
-
 
  $profile = $_FILES['profile'];
  $fullname = $_POST['fullname'];
@@ -13,7 +13,7 @@ $uuid = Uuid::uuid4();
  $birthdate = $_POST['birthdate'];
  $address = $_POST['address'];
  $gender = $_POST['gender'];
-
+$visitor_id = !empty($_SESSION["user_login_administrative"]) ? $_SESSION["user_login_administrative"] : $_POST['visitor_id'];
 
 
     if($profile['name'] !== $_SESSION['visitor_account']['profile']){
@@ -33,10 +33,14 @@ $uuid = Uuid::uuid4();
             echo   json_encode($response);
             return;
         }
-        update_visitor_account_profile($filename);
+        createRequestAppointmentHistory($visitor_id,'You are updated your profile.');
+
+        update_visitor_account_profile($filename,$visitor_id);
         $_SESSION['visitor_account']['profile'] = $filename; 
     }
     
+  
+
     update_visitor_account(
         $fullname,
         $email,
@@ -44,10 +48,11 @@ $uuid = Uuid::uuid4();
         $countries_input,
         $birthdate,
         $address ,
-        $gender
+        $gender,
+        $visitor_id
     );
 
-    update_visitor_history();
+    update_visitor_history($visitor_id);
 
 $_SESSION['visitor_account']['fullname'] = $fullname; 
 $_SESSION['visitor_account']['email'] = $email;
@@ -58,7 +63,7 @@ $_SESSION['visitor_account']['address'] = $address;
 $_SESSION['visitor_account']['gender'] = $gender; 
 
 
-
+createRequestAppointmentHistory($visitor_id ,'You are updated your profile.');
 
 $response = array(
     'message'=>"Update Profile Successfully",

@@ -1,32 +1,27 @@
 let timeout = undefined;
 let matchCount = 0;
+let itemCount = 0;
 async function fetchData(fetchOption, cb) {
-  const data = await fetch(fetchOption);
-  const res = await data.json();
-  if (matchCount !== 0 && matchCount !== res.lastcount) {
-    if (
-      res.lastrow[0].country &&
-      res.lastrow[0].profile &&
-      res.lastrow[0].birthdate &&
-      res.lastrow[0].address &&
-      res.lastrow[0].gender
-    ) {
-      matchCount = res.lastcount;
+  clearTimeout(timeout);
+
+  if (fetchOption.config) {
+    const data = await fetch(fetchOption.url, fetchOption.config);
+
+    const res = await data.json();
+    if (res.log > 0) {
       cb();
-      timeout = setTimeout(() => {
-        fetchData(fetchOption, cb);
-      }, 100);
-
-      return Object.values(res)[0];
-    } else {
-      timeout = setTimeout(() => {
-        fetchData(fetchOption, cb);
-      }, 100);
-
-      return Object.values(res)[0];
     }
+    timeout = setTimeout(() => {
+      fetchData(fetchOption, cb);
+    }, 100);
+    return Object.values(res)[0];
   }
-  matchCount = res.lastcount;
+
+  const data = await fetch(fetchOption.url);
+  const res = await data.json();
+  if (res.log > 0) {
+    cb();
+  }
   timeout = setTimeout(() => {
     fetchData(fetchOption, cb);
   }, 100);
@@ -34,42 +29,33 @@ async function fetchData(fetchOption, cb) {
   return Object.values(res)[0];
 }
 
-function filter(arr, input) {
+function filter(arr, input, filterLogicCallback) {
   return arr.filter(function (data) {
-    if (
-      data.fullname.toLowerCase().search(input.toLowerCase()) >= 0 ||
-      data.mb_number.toLowerCase().search(input.toLowerCase()) >= 0 ||
-      data.email.search(input.toLowerCase()) >= 0
-    ) {
+    if (filterLogicCallback(data, input)) {
       return data;
     }
   });
 }
+//   filterLogicCallback,
+//   comparisonLogicCallback
 
-function searchData(arr, input) {
+function searchData(arr, input, filterLogicCallback, comparisonLogicCallback) {
   if (!input) {
     return arr.sort(function (a, b) {
       return a.fullname.localeCompare(b.fullname);
     });
   }
-  return filter(arr, input).sort(function (a, b) {
-    return (
-      a.fullname.localeCompare(b.fullname) ||
-      a.mb_number.localeCompare(b.mb_number) ||
-      a.email.localeCompare(b.email)
-    );
-  });
+
+  return filter(arr, input, filterLogicCallback).sort(comparisonLogicCallback);
 }
 
 function displayTable(tableHeader, tableData) {
   const table = `
-  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 h-full">
     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
           <table class="min-w-full">
             ${tableHeader}
             ${tableData}
         </table>
-    </div>
   </div>
 `;
 
@@ -82,13 +68,13 @@ function displaydata(arr, { displayData }) {
 
 function displayHeader({ headerArray, displayData, res }) {
   let trHeader = `
-  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+  <thead  class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
      <tr  >
   `;
   headerArray.forEach((data) => {
     trHeader += `
-          <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left cursor-pointer z-[100]">
-            <div id='${
+          <th  class="text-sm font-medium text-gray-900 px-6 py-4 text-left cursor-pointer z-[100]">
+            <div  id='${
               data.title
             }' class='flex gap-x-2 ' onclick='sortedBy(this,${JSON.stringify(
       res
@@ -129,11 +115,17 @@ async function initializeDisplay(root, fetchOption, headerOption, dataOption) {
   );
 }
 
-async function init(fetchOption, headerOption, root, dataOption) {
+async function init(
+  fetchOption,
+  headerOption,
+  root,
+  dataOption,
+  filterLogicCallback,
+  comparisonLogicCallback
+) {
   initializeDisplay(root, fetchOption, headerOption, dataOption);
 
   document.querySelector("#search").addEventListener("input", async (e) => {
-    clearTimeout(timeout);
     root.innerHTML = displayTable(
       displayHeader({
         ...headerOption,
@@ -147,7 +139,9 @@ async function init(fetchOption, headerOption, root, dataOption) {
           await fetchData(fetchOption, function () {
             initializeDisplay(root, fetchOption, headerOption, dataOption);
           }),
-          e.target.value
+          e.target.value,
+          filterLogicCallback,
+          comparisonLogicCallback
         ),
         dataOption
       )

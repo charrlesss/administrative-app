@@ -1,5 +1,7 @@
 <?php
 include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Visitors/visitor.administrative.php');
+include( $_SERVER['DOCUMENT_ROOT'].'/freight/model/Administrative/Admin/visitor-management.administrative.php');
+
 use Ramsey\Uuid\Uuid;
 $uuid = Uuid::uuid4();
 
@@ -42,8 +44,9 @@ if(!move_uploaded_file($_FILES['profile']['tmp_name'], $uploadfile)){
     $_SESSION['visitor_account']['address'] = $address;
     $_SESSION['visitor_account']['mb_number'] = $mb_number;
     $_SESSION['visitor_account']['birthdate'] = $birthdate;
+    $name = $_SESSION['visitor_account']['fullname'];
 
-
+    createVisitorManagementHistory("$name  is created an account successfully");
 
 
 

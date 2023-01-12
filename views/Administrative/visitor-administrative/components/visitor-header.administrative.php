@@ -67,7 +67,7 @@
                 <div class=" h-5 w-4 bg-slate-50 rotate-45 transform origin-bottom-left"></div>
             </div>
 
-            <div class="absolute top-5 bg-slate-50 w-[300px] h-[400px] overflow-y-auto overflow-x-hidden shadow-lg relative">
+            <div class="absolute top-5 bg-slate-50 w-[300px] h-[400px] overflow-y-auto overflow-x-hidden shadow-2xl relative">
                 <div class="flex justify-between p-2 border-b ">
                     <h1 class="font-semibold ">Notifications</h1>
                     <span id="read-all" class="flex gap-x-1 items-center cursor-pointer relative ">
@@ -115,8 +115,6 @@
     
     let ripples = document.createElement('span');
     ripples.className="ripples"
-    // ripples.style.left = (x + y)+ 'px';
-    // ripples.style.top = y + 'px';
     element.appendChild(ripples);
     
      setTimeout(() => {
@@ -133,8 +131,13 @@
 </script>
 
 <script>
-fetchUserHistory()
-MarkAllAsRead();
+const getURL = '/freight/get-history'
+const seenURL = '/freight/seen-one-history'
+const MarkAllAsReadURL = '/freight/seen-all-history'
+
+
+fetchUserHistory(getURL,seenURL)
+MarkAllAsRead(getURL,seenURL,MarkAllAsReadURL);
 updateNotificationCount(0);
 </script>
 

@@ -1,13 +1,5 @@
 <?php
 
-function getUserAdminByEmployeeId($employee_id , $department){
-    $db = $GLOBALS["db"];   
-   $sql=  "SELECT * FROM `user-mamagement-account` WHERE `employee_id`='$employee_id' AND `department` ='$department'";
-   $result = $db->query($sql);
-    if(!$result)return '';
-   $account =  $result->fetch_assoc();
-   return $account;
-}
 
 
 function getInquirersParticipantsRecieverById($id){
@@ -109,9 +101,9 @@ function hasChangesInTable(){
    return $db->affected_rows;
 }
 
-function getAllVisitorAccount(){
+function getAllVisitorAccount($status){
     $db = $GLOBALS["db"];
-    $sql=  "SELECT * FROM `visitor-account`"; 
+    $sql=  "SELECT * FROM `visitor-account` WHERE `deactivate` ='$status'"; 
     $result = $db->query($sql);
    return $result->fetch_all(MYSQLI_ASSOC);
 }
@@ -132,18 +124,162 @@ function affectVisitorAccountTable(){
    return $db->affected_rows;
 }
 
-function getAllVisitorAppointmentRequestActive(){
+
+
+function hasChangesVisitorAppointmentTable(){
     $db = $GLOBALS["db"];
-    $sql=  "SELECT * FROM `appointment-request-visitor-management` arvm JOIN `visitor-account` va ON arvm.visitor_id = va.visitor_id WHERE `docu_status` = 'active'"; 
+    $sql=  "SELECT * FROM `appointment-request-visitor-management` arvm JOIN `visitor-account` va ON arvm.visitor_id = va.visitor_id ORDER BY arvm.createdAt DESC LIMIT 1"; 
+    $result = $db->query($sql);
+   return $result->fetch_all(MYSQLI_ASSOC);
+}
+
+function affectVisitorAppointmentTable(){
+    $db = $GLOBALS["db"];
+    $sql=  "SELECT * FROM `appointment-request-visitor-management`"; 
+    $result = $db->query($sql);
+   return $db->affected_rows;
+}
+
+
+
+function updateStatus($status,$requestIdVM,$requestIdV){
+    $db = $GLOBALS["db"];
+    $sql=  "UPDATE `appointment-request-visitor-management` arvm, `visitor-appointment-request` var SET arvm.status='$status',var.status ='$status'
+     WHERE arvm.`appointment-request-visitor-management_id` = '$requestIdVM' AND var.`visitor_request_id`='$requestIdV'"; 
+    $result = $db->query($sql);
+   return $db->affected_rows;
+}
+
+function getAppointmentFromVisitorRequestId($visitor_request_id){
+    $db = $GLOBALS["db"];
+    $sql=  "SELECT cvl.*, arvm.* FROM `appointment-request-visitor-management` arvm
+    LEFT JOIN `company-visitor-log` cvl ON cvl.visitor_request_id = '$visitor_request_id'
+    WHERE arvm.visitor_request_id = '$visitor_request_id'
+    "; 
+    $result = $db->query($sql);
+    $request =  $result->fetch_assoc();
+   return $request;
+}
+
+function addTimeInAppointmentFromVisitorRequestId($visitor_request_id){
+    $db = $GLOBALS["db"];
+    $time = time();
+    $sql= "INSERT INTO `company-visitor-log`(`visitor_request_id`, `date_time_in`, `date_time_out`)
+    VALUES ('$visitor_request_id','$time','')"; 
+    $result = $db->query($sql);
+}
+
+function addTimeOutAppointmentFromVisitorRequestId($visitor_request_id){
+    $db = $GLOBALS["db"];
+    $time = time();
+    $sql= "UPDATE `company-visitor-log` SET `date_time_out`='$time' WHERE `visitor_request_id`='$visitor_request_id'"; 
+    $result = $db->query($sql);
+}
+
+
+function getAllVisitorAppointmentRequestActive($status){
+    $db = $GLOBALS["db"];
+    $sql=  "SELECT arvm.*,cvl.date_time_in,cvl.date_time_out,va.profile,va.mb_number
+    FROM `appointment-request-visitor-management` arvm
+     LEFT JOIN `company-visitor-log` cvl ON arvm.visitor_request_id = cvl.visitor_request_id
+     JOIN `visitor-account` va ON arvm.visitor_id = va.visitor_id 
+    WHERE `docu_status` = 'active' AND `status`='$status'"; 
     $result = $db->query($sql);
    return $result->fetch_all(MYSQLI_ASSOC);
 }
 
 function getAllVisitorAppointmentRequestDeactive(){
     $db = $GLOBALS["db"];
-    $sql=  "SELECT * FROM `appointment-request-visitor-management` arvm JOIN `visitor-account` va ON arvm.visitor_id = va.visitor_id WHERE `docu_status` = 'deactive'"; 
+    $sql=  "SELECT arvm.*,cvl.date_time_in,cvl.date_time_out,va.profile
+    FROM `appointment-request-visitor-management` arvm 
+    LEFT JOIN `company-visitor-log` cvl ON arvm.visitor_request_id = cvl.visitor_request_id
+    JOIN `visitor-account` va ON arvm.visitor_id = va.visitor_id WHERE `docu_status` = 'deactive' "; 
     $result = $db->query($sql);
    return $result->fetch_all(MYSQLI_ASSOC);
 }
+function getAppointmentParticipantsFromVisitorRequestId($visitor_request_id){
+    $db = $GLOBALS["db"];
+    $sql=  "SELECT * FROM `visitor-appointment-request-participants` 
+    WHERE `visitor_request_id` = '$visitor_request_id'"; 
+    $result = $db->query($sql);
+    $request =  $result->fetch_assoc();
+   return $request;
+}
+
+function createVisitorManagementHistory($m){
+    $db = $GLOBALS["db"];
+    $date_time = time();
+    $seen = false;
+    $sql = "INSERT INTO `visitor-management-history`(`message`, `seen`, `date-time`)
+     VALUES ('$m','$seen','$date_time')";
+    $db->query($sql);
+}
 
 
+function getVisitorManagementHistory(){
+    $db = $GLOBALS["db"];
+    $sql ="SELECT * FROM `visitor-management-history`";
+    $result = $db->query($sql);
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
+
+function effectVisitorManagementTableHistory(){
+    $db = $GLOBALS["db"];
+    $time = time();
+    $sql = "SELECT IFNULL(CAST(`date-time` AS INT),0) FROM `visitor-management-history` WHERE  `date-time` >='$time'";
+    $result = $db->query($sql);
+    return $db->affected_rows;
+}
+
+function seenVisitorManagementOneHistoryById($id){
+    $db = $GLOBALS["db"];
+    $seen = true;
+    $sql ="UPDATE `visitor-management-history` SET `seen`='$seen' WHERE `visitor-management-history-id`= '$id'";
+    $result = $db->query($sql);
+}
+
+function seenAllHistoryByIdVisitorManagement(){
+    $db = $GLOBALS["db"];
+    $seen = true;
+    $sql ="UPDATE `visitor-management-history` SET `seen`='$seen' ";
+    $result = $db->query($sql);
+}
+
+function updatVisitorPassword($pasword,$id){
+    $db = $GLOBALS["db"];
+    $session_out = true;
+    $sql ="UPDATE `visitor-account` SET  `password`='$pasword', `session_out`='$session_out' WHERE `visitor_id` ='$id' ";
+    $result = $db->query($sql);
+}
+
+function deactivateVisitorAccount($id){
+    $db = $GLOBALS["db"];
+    $deactivate = true;
+    $sql ="UPDATE `visitor-account` SET `deactivate`='$deactivate' WHERE `visitor_id` ='$id' ";
+    $result = $db->query($sql);
+}
+
+//affect
+
+function affectVisitorRequestTimeInTimeOutLogTable(){
+    $time = time();
+    $db = $GLOBALS["db"];
+    $sql= "SELECT IFNULL(CAST(`date_time_in` AS INT),0),IFNULL(CAST(`date_time_out` AS INT),0) FROM `company-visitor-log` WHERE  `date_time_in` >= '$time' OR `date_time_out` >= '$time'"; 
+    $result = $db->query($sql);
+   return $db->affected_rows;
+}
+function affectVisitorRequestUpdateAppointmentTable(){
+    $time = time();
+    $db = $GLOBALS["db"];
+    $sql= "SELECT IFNULL(`vm_appointment_req_log`,0) FROM `appointment-request-visitor-management` WHERE  `vm_appointment_req_log` >= '$time'"; 
+    $result = $db->query($sql);
+   return $db->affected_rows;
+}
+
+function affectVisitorTable(){
+    $time = time();
+    $db = $GLOBALS["db"];
+    $sql= "SELECT IFNULL(`visitor_acc_log`,0) FROM `visitor-account` WHERE  `visitor_acc_log` >= '$time'"; 
+    $result = $db->query($sql);
+   return $db->affected_rows;
+}
